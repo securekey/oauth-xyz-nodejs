@@ -3,7 +3,3 @@ export class ResourceFull {
   locations: String[];
   data: String[];
 }
-
-export class Resources {
-  resources: (ResourceFull | String)[]; // Array of objects or handles
-}

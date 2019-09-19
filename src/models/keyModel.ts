@@ -3,7 +3,3 @@ export class KeyFull {
   cert: String;
   did: String;
 }
-
-export class Key {
-  key: KeyFull | String;
-}

@@ -3,7 +3,3 @@ export class ClientFull {
   uri: String;
   logo_uri: String;
 }
-
-export class Client {
-  client: ClientFull | String;
-}
