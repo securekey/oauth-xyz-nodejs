@@ -1,0 +1,24 @@
+{
+  "name": "oauthxyz",
+  "version": "1.0.0",
+  "description": "A reference implementation for the OAuth.xyz protocol",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@sk-git.securekey.com:labs/oauthxyz.git"
+  },
+  "keywords": [
+    "oauth",
+    "xyz",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.1",
+    "express": "^4.17.1"
+  }
+}
