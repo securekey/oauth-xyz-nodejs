@@ -6,6 +6,8 @@ import { KeyFull } from "./keyModel";
 import { Handle } from "./handleModel";
 
 export class TransactionRequest {
+  handle: String;
+
   client: ClientFull | String;
   interact: InteractFull | String;
   user: UserFull | String;
