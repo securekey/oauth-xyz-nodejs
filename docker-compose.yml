@@ -13,7 +13,7 @@ services:
     image: mongo:latest
     restart: always
     volumes:
-      - /mongo/data:/mongo/data
+      - ./mongo/data:/mongo/data
     environment:
       - MONGO_INITDB_ROOT_USERNAME=docker
       - MONGO_INITDB_ROOT_PASSWORD=docker
