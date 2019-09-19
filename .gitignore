@@ -1,6 +1,7 @@
 node_modules/
 .node_modules/
 dist/*
+dist/
 tests/cases/rwc/*
 tests/cases/test262/*
 tests/cases/perf/*
@@ -92,3 +93,5 @@ tests/cases/user/webpack/webpack
 tests/cases/user/puppeteer/puppeteer
 tests/cases/user/axios-src/axios-src
 tests/cases/user/prettier/prettier
+mongo/*
+mongo/

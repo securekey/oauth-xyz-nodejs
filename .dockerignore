@@ -20,6 +20,7 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-**/dist
+mongo/
+dist/
 LICENSE
 README.md
