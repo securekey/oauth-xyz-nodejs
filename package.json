@@ -2,10 +2,9 @@
   "name": "oauthxyz",
   "version": "1.0.0",
   "description": "A reference implementation for the OAuth.xyz protocol",
-  "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node ./lib/server.ts",
+    "dev": "ts-node ./src/server.ts",
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
