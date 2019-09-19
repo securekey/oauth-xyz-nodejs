@@ -1,6 +1,6 @@
 enum Method {
-  BEARER,
-  SHA3
+  BEARER = "bearer",
+  SHA3 = "sha3"
 }
 
 export class Handle {
