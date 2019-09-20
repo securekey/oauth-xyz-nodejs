@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { TransactionRequest, TransactionResponse } from "../models/transactionModel";
-
-
+import {
+  TransactionRequest,
+  TransactionResponse
+} from "../models/transactionModel";
 
 export class Routes {
   public routes(app): void {

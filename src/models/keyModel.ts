@@ -3,7 +3,7 @@ export class KeyFull {
   cert: String;
   did: String;
 
-  constructor(Obj:any){
+  constructor(Obj: any) {
     this.jwks = Obj.jwks;
   }
 }

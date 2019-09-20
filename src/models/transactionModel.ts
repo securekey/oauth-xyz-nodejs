@@ -6,7 +6,6 @@ import { KeyFull } from "./keyModel";
 import { Handle } from "./handleModel";
 
 export class TransactionRequest {
-
   handle: String;
 
   client: ClientFull | String;
@@ -15,17 +14,19 @@ export class TransactionRequest {
   resources: (ResourceFull | String)[];
   key: KeyFull | String;
 
-  constructor(Obj: any){
+  constructor(Obj: any) {
     this.client = new ClientFull(Obj.client);
     this.interact = new InteractFull(Obj.interact);
     this.user = new UserFull(Obj.user);
-    // this.resources = new ResourceFull(Obj.resources)[];
-    this.key = new KeyFull(Obj.key);
+    this.resources = new Array<ResourceFull>();
 
+    Obj.resources.forEach((resource: any) => {
+      this.resources.push(new ResourceFull(resource));
+    });
+
+    this.key = new KeyFull(Obj.key);
   }
 }
-
-
 
 export class TransactionResponse {
   // Next Step: Redirect
@@ -49,9 +50,9 @@ export class TransactionResponse {
   resources_handle: Handle;
   key_handle: Handle;
 
-  constructor(){
-    this.interaction_url = "localhost:3000/interact/test"
-    this.server_nonce = "12345"
+  constructor() {
+    this.interaction_url = "localhost:3000/interact/test";
+    this.server_nonce = "12345";
     this.handle = new Handle();
   }
 }

@@ -3,7 +3,7 @@ export class InteractFull {
   callback: String;
   nonce: String;
 
-  constructor(Obj: any){
+  constructor(Obj: any) {
     this.type = Obj.type;
     this.callback = Obj.callback;
     this.nonce = Obj.nonce;
