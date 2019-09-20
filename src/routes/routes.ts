@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { TransactionRequest } from "../models/transactionModel";
+import { TransactionRequest, TransactionResponse } from "../models/transactionModel";
+
+
 
 export class Routes {
   public routes(app): void {
@@ -11,7 +13,8 @@ export class Routes {
 
     app.route("/transaction").post((req: Request, res: Response) => {
       var txReq = new TransactionRequest(req.body);
-      res.send(txReq);
+      var txResp = new TransactionResponse();
+      res.send(txResp);
     });
 
     app.route("/interact").get((req: Request, res: Response) => {

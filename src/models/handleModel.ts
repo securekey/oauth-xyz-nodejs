@@ -6,4 +6,9 @@ enum Type {
 export class Handle {
   value: String;
   type: Type;
+
+  constructor(){
+    this.value = "23456"
+    this.type = Type.BEARER;
+  }
 }

@@ -19,6 +19,7 @@ export class TransactionRequest {
     this.client = new ClientFull(Obj.client);
     this.interact = new InteractFull(Obj.interact);
     this.user = new UserFull(Obj.user);
+    // this.resources = new ResourceFull(Obj.resources)[];
     this.key = new KeyFull(Obj.key);
 
   }
@@ -47,6 +48,12 @@ export class TransactionResponse {
   user_handle: Handle;
   resources_handle: Handle;
   key_handle: Handle;
+
+  constructor(){
+    this.interaction_url = "localhost:3000/interact/test"
+    this.server_nonce = "12345"
+    this.handle = new Handle();
+  }
 }
 
 /*
