@@ -31,7 +31,7 @@ export class Routes {
         message:
           "Interaction GET endpoint. ID: " +
           req.params.id +
-          ". To be updated..."
+          ".  The client wishes to access this data"
       });
     });
 

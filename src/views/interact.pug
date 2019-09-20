@@ -4,3 +4,8 @@ html
     body
         h1= message
         p= para
+
+        form(method='POST' action='/interact/approve')
+          button(type="submit") approve
+
+          button(type="submit") cancel
