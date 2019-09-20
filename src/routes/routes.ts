@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { TransactionRequest } from "../models/transactionModel";
 
 export class Routes {
   public routes(app): void {
@@ -9,9 +10,8 @@ export class Routes {
     });
 
     app.route("/transaction").post((req: Request, res: Response) => {
-      res.status(200).send({
-        message: "Transaction POST endpoint. To be updated..."
-      });
+      var txReq = new TransactionRequest(req.body);
+      res.send(txReq);
     });
 
     app.route("/interact").get((req: Request, res: Response) => {

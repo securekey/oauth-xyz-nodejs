@@ -6,6 +6,7 @@ import { KeyFull } from "./keyModel";
 import { Handle } from "./handleModel";
 
 export class TransactionRequest {
+
   handle: String;
 
   client: ClientFull | String;
@@ -13,7 +14,17 @@ export class TransactionRequest {
   user: UserFull | String;
   resources: (ResourceFull | String)[];
   key: KeyFull | String;
+
+  constructor(Obj: any){
+    this.client = new ClientFull(Obj.client);
+    this.interact = new InteractFull(Obj.interact);
+    this.user = new UserFull(Obj.user);
+    this.key = new KeyFull(Obj.key);
+
+  }
 }
+
+
 
 export class TransactionResponse {
   // Next Step: Redirect
@@ -37,3 +48,23 @@ export class TransactionResponse {
   resources_handle: Handle;
   key_handle: Handle;
 }
+
+/*
+Client request incoming
+
+if(handle != null) this is new transation request
+
+  generate interaction user_code_url
+  generate server nonce
+
+  generate transaction handle
+  store transaction handle in MongoDB
+
+  pass client
+  "handle": {
+    "value": "80UPRY5NM33OMUKMKSKU",
+    "type": "bearer"
+}
+
+
+*/
