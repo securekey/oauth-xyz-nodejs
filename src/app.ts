@@ -32,6 +32,8 @@ class App {
   private config(): void {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.set("views", __dirname + "/views");
+    this.app.set("view engine", "pug");
   }
 
   private mongoSetup(): void {
