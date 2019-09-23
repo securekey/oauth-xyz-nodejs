@@ -29,7 +29,9 @@ export class Handle {
   type: Type;
 
   constructor() {
-    var random = Math.floor((Math.random() * 10) ^ 5);
+    var random = Math.random();
+    random = Math.floor(random * Math.pow(10, 15));
+
     this.value = random.toString();
     this.type = Type.BEARER;
   }

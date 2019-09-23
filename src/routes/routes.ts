@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { TransactionRequest } from "../models/txRequestModel";
 import { TransactionResponse } from "../models/txResponseModel";
+import { Handle } from "../models/handleModel";
 
 export class Routes {
   public routes(app): void {
@@ -28,10 +29,8 @@ export class Routes {
       res.status(200).send({
         message:
           "User has approved the transaction. Data will be shared and access Token is granted",
-        token: new TokenFull()
+        token: new Handle()
       });
-      // var accessToken = new TokenFull();
-      // res.send(accessToken);
     });
 
     app
