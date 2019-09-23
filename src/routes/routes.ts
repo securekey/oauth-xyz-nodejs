@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { TransactionRequest } from "../models/txRequestModel";
 import { TransactionResponse } from "../models/txResponseModel";
-import { TokenFull } from "../models/tokenModel";
 
 export class Routes {
   public routes(app): void {

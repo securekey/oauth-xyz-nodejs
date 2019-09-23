@@ -33,7 +33,6 @@ export class Handle {
     this.value = random.toString();
     this.type = Type.BEARER;
   }
-}
 
   public toSchema() {
     var handle = new HandleModel({
