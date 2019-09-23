@@ -29,9 +29,11 @@ export class Handle {
   type: Type;
 
   constructor() {
-    this.value = "23456";
+    var random = Math.floor((Math.random() * 10) ^ 5);
+    this.value = random.toString();
     this.type = Type.BEARER;
   }
+}
 
   public toSchema() {
     var handle = new HandleModel({
