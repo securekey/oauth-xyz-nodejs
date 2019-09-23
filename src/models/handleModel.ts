@@ -29,11 +29,11 @@ export class Handle {
   type: Type;
 
   constructor() {
-    var random = Math.floor((Math.random() * 10) ^ 5);
+    var random = Math.random();
+    random = Math.floor(Math.pow(random, 10));
     this.value = random.toString();
     this.type = Type.BEARER;
   }
-}
 
   public toSchema() {
     var handle = new HandleModel({
