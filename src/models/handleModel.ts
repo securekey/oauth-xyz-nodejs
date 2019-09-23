@@ -30,7 +30,8 @@ export class Handle {
 
   constructor() {
     var random = Math.random();
-    random = Math.floor(Math.pow(random, 10));
+    random = Math.floor(random * Math.pow(10, 15));
+
     this.value = random.toString();
     this.type = Type.BEARER;
   }

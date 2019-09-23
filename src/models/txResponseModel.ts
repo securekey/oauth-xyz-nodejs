@@ -23,8 +23,13 @@ export class TransactionResponse {
   key_handle: Handle;
 
   constructor() {
-    this.interaction_url = "localhost:3000/interact/test";
-    this.server_nonce = "12345";
+    var randomIURL = Math.random();
+    randomIURL = Math.floor(randomIURL * Math.pow(10, 15));
+    this.interaction_url = "localhost:3000/interact/" + randomIURL.toString();
+
+    var randomNonce = Math.random();
+    randomNonce = Math.floor(randomNonce * Math.pow(10, 15));
+    this.server_nonce = randomNonce.toString();
     this.handle = new Handle();
   }
 }
