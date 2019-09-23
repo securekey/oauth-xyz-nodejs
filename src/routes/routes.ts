@@ -23,6 +23,7 @@ export class Routes {
         message: "How you doin?",
         para: "This is where we ask the user to approve or decline"
       });
+      //    res.send(req.cookies);
     });
 
     app.route("/interact/approve").post((req: Request, res: Response) => {
@@ -43,12 +44,7 @@ export class Routes {
       });
 
     app.route("/interact/:id").get((req: Request, res: Response) => {
-      res.status(200).send({
-        message:
-          "Interaction GET endpoint. ID: " +
-          req.params.id +
-          ". To be updated..."
-      });
+      res.cookie("test", "works").redirect("/interact");
     });
   }
 }
