@@ -37,7 +37,7 @@ class App {
   }
 
   private mongoSetup(): void {
-    mongoose.Promise = global.Promise;
+    //    mongoose.Promise = global.Promise;
     mongoose.connect(this.mongoURL, this.options);
   }
 }

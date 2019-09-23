@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { TransactionRequest } from "../models/txRequestModel";
 import { TransactionResponse } from "../models/txResponseModel";
+import { TokenFull } from "../models/tokenModel";
 
 export class Routes {
   public routes(app): void {
@@ -26,8 +27,12 @@ export class Routes {
 
     app.route("/interact/approve").post((req: Request, res: Response) => {
       res.status(200).send({
-        message: "Im not sure what happens here"
+        message:
+          "User has approved the transaction. Data will be shared and access Token is granted",
+        token: new TokenFull()
       });
+      // var accessToken = new TokenFull();
+      // res.send(accessToken);
     });
 
     app
