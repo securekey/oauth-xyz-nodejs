@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import {
-  TransactionRequest,
-  TransactionResponse
-} from "../models/transactionModel";
+import { TransactionRequest } from "../models/txRequestModel";
+import { TransactionResponse } from "../models/txResponseModel";
 
 export class Routes {
   public routes(app): void {
@@ -26,15 +24,6 @@ export class Routes {
       });
     });
 
-    app.route("/interact/:id").get((req: Request, res: Response) => {
-      res.status(200).send({
-        message:
-          "Interaction GET endpoint. ID: " +
-          req.params.id +
-          ". To be updated..."
-      });
-    });
-
     app.route("/interact/approve").post((req: Request, res: Response) => {
       res.status(200).send({
         message: "Im not sure what happens here"
@@ -49,5 +38,14 @@ export class Routes {
       .post((req: Request, res: Response) => {
         res.send("Device POST");
       });
+
+    app.route("/interact/:id").get((req: Request, res: Response) => {
+      res.status(200).send({
+        message:
+          "Interaction GET endpoint. ID: " +
+          req.params.id +
+          ". To be updated..."
+      });
+    });
   }
 }
