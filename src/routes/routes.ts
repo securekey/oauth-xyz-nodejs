@@ -22,7 +22,8 @@ export class Routes {
         title: "Hello there!",
         message: "How you doin?",
         para:
-          "This is where we ask the user to approve or decline" + req.cookies
+          "This is where we ask the user to approve or decline" +
+          JSON.stringify(req.cookies)
       });
     });
 
