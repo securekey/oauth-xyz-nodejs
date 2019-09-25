@@ -24,6 +24,8 @@ export const HandleSetSchema = new mongoose.Schema({
   key: HandleSchema
 });
 
+export const HandleSet = mongoose.model("HandleSet", HandleSetSchema);
+
 export class Handle {
   value: String;
   type: Type;

@@ -2,8 +2,11 @@ import { Request, Response } from "express";
 import { TransactionRequest } from "../models/txRequestModel";
 import { TransactionResponse } from "../models/txResponseModel";
 import { Handle } from "../models/handleModel";
+import { TransactionController } from "../controllers/transactionController";
 
 export class Routes {
+  public transactionController: TransactionController = new TransactionController();
+
   public routes(app): void {
     app.route("/").get((req: Request, res: Response) => {
       res.status(418).send({
@@ -11,11 +14,13 @@ export class Routes {
       });
     });
 
-    app.route("/transaction").post((req: Request, res: Response) => {
+    /*app.route("/transaction").post((req: Request, res: Response) => {
       var txReq = new TransactionRequest(req.body);
       var txResp = new TransactionResponse();
       res.send(txResp);
-    });
+    });*/
+
+    app.route("/transaction").post(this.transactionController.postTransaction);
 
     app.route("/interact").get((req: Request, res: Response) => {
       res.render("interact", {
