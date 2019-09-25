@@ -7,7 +7,7 @@ import utils from "../utils/utils";
 import dataController from "./dataController";
 import { sha3_512 } from "js-sha3";
 
-export class TransactionController {
+class TransactionController {
   public async postTransaction(req: Request, res: Response) {
     var txReq = new TransactionRequest(req.body);
     var tx: any;
@@ -127,3 +127,5 @@ export class TransactionController {
     }
   }
 }
+
+export default new TransactionController();
