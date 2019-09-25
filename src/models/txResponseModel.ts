@@ -1,4 +1,5 @@
 import { Handle } from "./handleModel";
+import { TransactionModel } from "../models/transactionModel";
 
 export class TransactionResponse {
   // Next Step: Redirect
@@ -19,17 +20,19 @@ export class TransactionResponse {
   handle: Handle; // Transaction Handle
   client_handle: Handle;
   user_handle: Handle;
-  resources_handle: Handle;
+  resource_handle: Handle;
   key_handle: Handle;
 
-  constructor() {
-    var randomIURL = Math.random();
-    randomIURL = Math.floor(randomIURL * Math.pow(10, 15));
-    this.interaction_url = "localhost:3000/interact/" + randomIURL.toString();
-
-    var randomNonce = Math.random();
-    randomNonce = Math.floor(randomNonce * Math.pow(10, 15));
-    this.server_nonce = randomNonce.toString();
-    this.handle = new Handle();
+  constructor(Obj: any) {
+    this.interaction_url = Obj.interact.url;
+    this.server_nonce = Obj.interact.server_nonce;
+    this.user_code_url = Obj.interact.user_code_url;
+    this.user_code = Obj.interact.user_code;
+    this.access_token = Obj.access_token;
+    this.handle = Obj.handles.transaction;
+    this.client_handle = Obj.handles.client;
+    this.user_handle = Obj.handles.user;
+    this.resource_handle = Obj.handles.resource;
+    this.key_handle = Obj.handles.key;
   }
 }
