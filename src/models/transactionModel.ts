@@ -15,7 +15,8 @@ export const TransactionSchema = new mongoose.Schema({
   access_token: HandleSchema,
   status: {
     type: String,
-    enum: ["new", "issued", "authorized", "waiting", "denied"]
+    enum: ["new", "issued", "authorized", "waiting", "denied"],
+    default: "new"
   }
 });
 

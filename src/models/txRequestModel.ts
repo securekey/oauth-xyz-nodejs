@@ -14,7 +14,7 @@ export class TransactionRequest {
   key: KeyFull | String;
 
   constructor(Obj: any) {
-    if (Obj.handle != "") {
+    if (Obj.handle !== null && Obj.handle !== undefined) {
       this.handle = Obj.handle;
     } else {
       this.client = new ClientRequest(Obj.client);
@@ -35,7 +35,7 @@ export class TransactionRequest {
   }
 
   public getClientDoc() {
-    if (this.isClientRequestFull) {
+    if (this.isClientRequestFull()) {
       return (<ClientRequest>this.client).toSchema();
     }
   }
@@ -45,7 +45,7 @@ export class TransactionRequest {
   }
 
   public getInteractDoc() {
-    if (this.isInteractRequestFull) {
+    if (this.isInteractRequestFull()) {
       return (<InteractRequest>this.interact).toSchema();
     }
   }

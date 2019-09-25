@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import { TransactionRequest } from "models/txRequestModel";
+import { TransactionRequest } from "../models/txRequestModel";
 import { isNullOrUndefined, isError } from "util";
 import dataController from "./dataController";
-import { TransactionModel } from "models/transactionModel";
-import { ClientRequest, Client } from "models/clientModel";
-import { Handle } from "models/handleModel";
+import { TransactionModel } from "../models/transactionModel";
+import { Handle, HandleSet } from "../models/handleModel";
 
 export class TransactionController {
   public async postTransaction(req: Request, res: Response) {
     var txReq = new TransactionRequest(req.body);
     var tx: any;
 
-    if (!(txReq.handle === null || txReq.handle === undefined)) {
+    if (txReq.handle !== null && txReq.handle !== undefined) {
       tx = await dataController.getTransactionByHandle(txReq.handle);
 
+      console.log(tx);
       if (isError(tx)) {
         return res.status(404);
       }
@@ -54,7 +54,9 @@ export class TransactionController {
     }
 
     // Rotate the TX Handle
-    tx.handles.transaction = new Handle().toSchema();
+    tx.handles = new HandleSet({
+      transaction: new Handle().toSchema()
+    });
 
     switch (tx.status) {
       case "authorized":
