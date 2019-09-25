@@ -2,43 +2,18 @@ import { TransactionModel } from "../models/transactionModel";
 import * as mongoose from "mongoose";
 
 class DataController {
-  public async getTransactionByHandle(handle: String) {
-    await TransactionModel.findOne(
-      { "handles.transaction.value": handle },
-      (err: Error, transaction: mongoose.Document) => {
-        if (err) {
-          return err;
-        } else {
-          return transaction;
-        }
-      }
-    );
+  public async getTransactionByHandle(handle: String): Promise<any> {
+    return TransactionModel.findOne({
+      "handles.transaction.value": handle
+    }).exec();
   }
 
-  public getTransactionByInteractId(id: String) {
-    TransactionModel.findOne(
-      { "interact.interact_id": id },
-      (err: Error, transaction: mongoose.Document) => {
-        if (err) {
-          return err;
-        } else {
-          return transaction;
-        }
-      }
-    );
+  public async getTransactionByInteractId(id: String): Promise<any> {
+    return TransactionModel.findOne({ "interact.interact_id": id }).exec();
   }
 
-  public getTransactionByUserCode(code: String) {
-    TransactionModel.findOne(
-      { "interact.user_code": code },
-      (err: Error, transaction: mongoose.Document) => {
-        if (err) {
-          return err;
-        } else {
-          return transaction;
-        }
-      }
-    );
+  public async getTransactionByUserCode(code: String): Promise<any> {
+    return TransactionModel.findOne({ "interact.user_code": code }).exec();
   }
 }
 
