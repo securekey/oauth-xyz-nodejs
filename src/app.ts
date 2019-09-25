@@ -34,6 +34,9 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.set("views", __dirname + "/views");
     this.app.set("view engine", "pug");
+
+    var cookieParser = require("cookie-parser");
+    this.app.use(cookieParser());
   }
 
   private mongoSetup(): void {
