@@ -21,13 +21,13 @@ export class Routes {
       res.render("interact", {
         title: "Hello there!",
         message: "How you doin?",
-        para: "This is where we ask the user to approve or decline"
+        para:
+          "This is where we ask the user to approve or decline" + req.cookies
       });
-      //    res.send(req.cookies);
     });
 
     app.route("/interact/approve").post((req: Request, res: Response) => {
-      res.status(200).send({
+      res.send({
         message:
           "User has approved the transaction. Data will be shared and access Token is granted",
         token: new Handle()
@@ -45,6 +45,14 @@ export class Routes {
 
     app.route("/interact/:id").get((req: Request, res: Response) => {
       res.cookie("test", "works").redirect("/interact");
+    });
+
+    app.route("/testing").get((req: Request, res: Response) => {
+      res.send(req.cookies);
+    });
+
+    app.route("/testing/clear").get((req: Request, res: Response) => {
+      res.clearCookie("test").send("cookie cleared");
     });
   }
 }
