@@ -3,6 +3,7 @@ html
         title= title
     body
         h1= message
+        p= para
 
         form(action="/interact/approve", method="post")
             button(type="submit", value="true", name="approved") Approve
