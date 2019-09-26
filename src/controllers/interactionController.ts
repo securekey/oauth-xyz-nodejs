@@ -5,17 +5,13 @@ class InteractionController {
   public async getInteract(req: Request, res: Response) {
     res.render("interact", {
       title: "Hello there!",
-      message: "How you doin?",
-      para: "This is where we ask the user to approve or decline" + req.cookies
+      message: "Authorization Request",
+      para: "Do you agree to authorize Client XYZ on your behalf?"
     });
   }
 
   public async postInteractApprove(req: Request, res: Response) {
-    res.send({
-      message:
-        "User has approved the transaction. Data will be shared and access Token is granted",
-      token: new Handle()
-    });
+    res.send(req.body);
   }
 
   public async getInteractDevice(req: Request, res: Response) {

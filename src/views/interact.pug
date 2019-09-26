@@ -3,9 +3,7 @@ html
         title= title
     body
         h1= message
-        p= para
 
-        form(method='POST' action='/interact/approve')
-          button(type="submit") approve
-
-          button(type="submit") cancel
+        form(action="/interact/approve", method="post")
+            button(type="submit", value="true", name="approved") Approve
+            button(type="submit", value="false", name="approved") Decline
