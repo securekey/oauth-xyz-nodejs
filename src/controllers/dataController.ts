@@ -1,19 +1,32 @@
-import { TransactionModel } from "../models/transactionModel";
-import * as mongoose from "mongoose";
+import { TransactionModel } from '../models/transactionModel';
+import { ClientModel } from '../models/clientModel';
+import * as mongoose from 'mongoose';
 
 class DataController {
-  public async getTransactionByHandle(handle: String): Promise<any> {
+  // Transaction
+  public getTransactionByHandle(handle: string) {
     return TransactionModel.findOne({
-      "handles.transaction.value": handle
-    }).exec();
+      'handles.transaction.value': handle
+    });
   }
 
-  public async getTransactionByInteractId(id: String): Promise<any> {
-    return TransactionModel.findOne({ "interact.interact_id": id }).exec();
+  public getTransactionByInteractId(id: string) {
+    return TransactionModel.findOne({
+      'interact.interact_id': id
+    });
   }
 
-  public async getTransactionByUserCode(code: String): Promise<any> {
-    return TransactionModel.findOne({ "interact.user_code": code }).exec();
+  public getTransactionByUserCode(code: string) {
+    return TransactionModel.findOne({
+      'interact.user_code': code
+    });
+  }
+
+  // Client
+  public getClientByHandle(handle: string) {
+    return ClientModel.findOne({
+      handle: handle
+    });
   }
 }
 

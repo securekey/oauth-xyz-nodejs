@@ -1,12 +1,13 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 
 export const ClientSchema = new mongoose.Schema({
+  handle: String,
   name: String,
   uri: String,
   logo_uri: String
 });
 
-export const Client = mongoose.model("Client", ClientSchema);
+export const ClientModel = mongoose.model('Client', ClientSchema);
 
 export class ClientRequest {
   handle: String;
@@ -21,7 +22,7 @@ export class ClientRequest {
   }
 
   public toSchema() {
-    var client = new Client({
+    var client = new ClientModel({
       name: this.name,
       uri: this.uri,
       logo_uri: this.logo_uri

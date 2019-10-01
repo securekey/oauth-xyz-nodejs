@@ -1,23 +1,30 @@
-import { KeyFull } from "./keyModel";
-import { ClientRequest } from "./clientModel";
-import { InteractRequest } from "./interactModel";
-import { UserRequest } from "./userModel";
-import { ResourceRequest } from "./resourcesModel";
+import { KeyFull } from './keyModel';
+import { ClientRequest } from './clientModel';
+import { InteractRequest } from './interactModel';
+import { UserRequest } from './userModel';
+import { ResourceRequest } from './resourcesModel';
+import { O_NONBLOCK } from 'constants';
 
 export class TransactionRequest {
-  handle: String;
+  handle: string;
 
-  client: ClientRequest | String;
-  interact: InteractRequest | String;
-  user: UserRequest | String;
-  resources: (ResourceRequest | String)[];
-  key: KeyFull | String;
+  client: ClientRequest | string;
+  interact: InteractRequest | string;
+  user: UserRequest | string;
+  resources: (ResourceRequest | string)[];
+  key: KeyFull | string;
 
   constructor(Obj: any) {
-    if (Obj.handle !== null && Obj.handle !== undefined) {
+    if (Obj.handle) {
       this.handle = Obj.handle;
     } else {
-      this.client = new ClientRequest(Obj.client);
+      if (Obj.client) {
+        if (typeof Obj.client === 'string') {
+          this.client = Obj.client;
+        } else {
+          this.client = new ClientRequest(Obj.client);
+        }
+      }
       this.interact = new InteractRequest(Obj.interact);
       this.user = new UserRequest(Obj.user);
       this.resources = new Array<ResourceRequest>();
