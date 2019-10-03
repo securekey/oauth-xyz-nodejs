@@ -1,10 +1,10 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
   id: String
 });
 
-const User = mongoose.model("User", UserSchema);
+export const UserModel = mongoose.model('User', UserSchema);
 
 export class UserRequest {
   assertion: String;

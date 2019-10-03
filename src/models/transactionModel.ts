@@ -1,9 +1,9 @@
-import * as mongoose from "mongoose";
-import { ClientSchema, ClientRequest } from "./clientModel";
-import { InteractSchema } from "./interactModel";
-import { UserSchema } from "./userModel";
-import { ResourceSchema } from "./resourcesModel";
-import { HandleSetSchema, HandleSchema } from "./handleModel";
+import * as mongoose from 'mongoose';
+import { ClientSchema, ClientRequest } from './clientModel';
+import { InteractSchema } from './interactModel';
+import { UserSchema } from './userModel';
+import { ResourceSchema } from './resourcesModel';
+import { HandleSetSchema, HandleSchema } from './handleModel';
 
 export const TransactionSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
@@ -15,12 +15,16 @@ export const TransactionSchema = new mongoose.Schema({
   access_token: HandleSchema,
   status: {
     type: String,
-    enum: ["new", "issued", "authorized", "waiting", "denied"],
-    default: "new"
+    enum: ['new', 'issued', 'authorized', 'waiting', 'denied'],
+    default: 'new'
+  },
+  requireCode: {
+    type: Boolean,
+    default: false
   }
 });
 
 export const TransactionModel = mongoose.model(
-  "Transaction",
+  'Transaction',
   TransactionSchema
 );

@@ -129,7 +129,7 @@ class TransactionController {
                 let interact_id = utils.generateRandomString(10);
                 let server_nonce = utils.generateRandomString(20);
                 let interaction_url =
-                  'https://localhost:3000/interact/' + interact_id;
+                  'http://localhost:3000/interact/' + interact_id;
 
                 tx.interact.url = interaction_url;
                 tx.interact.interact_id = interact_id;

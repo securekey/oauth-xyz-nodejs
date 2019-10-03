@@ -1,9 +1,12 @@
 import { TransactionModel } from '../models/transactionModel';
 import { ClientModel } from '../models/clientModel';
-import * as mongoose from 'mongoose';
 
 class DataController {
   // Transaction
+  public getTransactionByObject(obj: any) {
+    return TransactionModel.findOne(obj);
+  }
+
   public getTransactionByHandle(handle: string) {
     return TransactionModel.findOne({
       'handles.transaction.value': handle
