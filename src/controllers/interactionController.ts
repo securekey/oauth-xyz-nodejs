@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import dataController from './dataController';
-import { UserModel } from '../models/userModel';
 import utils from '../utils/utils';
 import { sha3_512 } from 'js-sha3';
 class InteractionController {
@@ -71,8 +70,6 @@ class InteractionController {
 
         if (req.body.approved === 'true') {
           tx.status = 'authorized';
-          var user = new UserModel({ id: req.session.id });
-          tx.user = user;
         } else {
           tx.status = 'denied';
         }

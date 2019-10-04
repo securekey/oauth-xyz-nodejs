@@ -7,6 +7,8 @@ import utils from '../utils/utils';
 import dataController from './dataController';
 import { sha3_512 } from 'js-sha3';
 import { ClientModel } from '../models/clientModel';
+import { UserRequestModel } from '../models/userModel';
+import { KeyModel } from '../models/keyModel';
 
 class TransactionController {
   public async postTransaction(req: Request, res: Response) {
@@ -37,6 +39,22 @@ class TransactionController {
       // If client request is full object (not handle)
       if (txReq.isClientRequestFull()) {
         tx.client = txReq.getClientDoc();
+        let h = new Handle();
+        let c = new ClientModel({
+          handle: h.value,
+          name: tx.client.name,
+          uri: tx.client.uri,
+          logo_uri: tx.client.logo_uri
+        });
+        await c.save();
+        tx.client = c;
+        if (tx.handles) {
+          tx.handles.client = h;
+        } else {
+          tx.handles = new HandleSet({
+            client: h
+          });
+        }
       } else if (txReq.client) {
         try {
           var client = await dataController.getClientByHandle(<string>(
@@ -52,17 +70,76 @@ class TransactionController {
         }
       }
 
-      // If interact request is full object (not handle)
+      // If interact request is full object
       if (txReq.isInteractRequestFull()) {
         tx.interact = txReq.getInteractDoc();
-      } else {
-        // Get interact req from handle
-        // Set it to tx.interact
       }
-    }
 
-    if (txReq.resources) {
-      tx.resources = txReq.resources;
+      if (txReq.isUserRequestFull()) {
+        tx.user = txReq.getUserDoc();
+        let h = new Handle();
+        let u = new UserRequestModel({
+          handle: h.value,
+          assertion: tx.user.assertion,
+          type: tx.user.type
+        });
+        await u.save();
+        tx.user = u;
+        if (tx.handles) {
+          tx.handles.user = h;
+        } else {
+          tx.handles = new HandleSet({
+            user: h
+          });
+        }
+      } else if (txReq.user) {
+        try {
+          var user = await dataController.getUserByHandle(<string>txReq.user);
+          if (!user) {
+            return res.status(400).send({ message: 'Invalid user handle' });
+          } else {
+            tx.user = user;
+          }
+        } catch (err) {
+          return res.status(500).send(err);
+        }
+      }
+
+      // TODO: resource handles
+      if (txReq.resources) {
+        tx.resources = txReq.resources;
+      }
+
+      if (txReq.isKeyRequestFull()) {
+        tx.key = txReq.getKeyDoc();
+        let h = new Handle();
+        let k = new KeyModel({
+          handle: h.value,
+          jwks: tx.key.jwks,
+          cert: tx.key.cert,
+          did: tx.key.did
+        });
+        await k.save();
+        tx.key = k;
+        if (tx.handles) {
+          tx.handles.key = h;
+        } else {
+          tx.handles = new HandleSet({
+            key: h
+          });
+        }
+      } else if (txReq.key) {
+        try {
+          var key = await dataController.getKeyByHandle(<string>txReq.key);
+          if (!key) {
+            return res.status(400).send({ message: 'Invalid key handle' });
+          } else {
+            tx.key = key;
+          }
+        } catch (err) {
+          return res.status(500).send(err);
+        }
+      }
     }
 
     if (tx) {
@@ -78,26 +155,36 @@ class TransactionController {
         }
       }
 
-      // Rotate the TX Handle
       if (tx.handles) {
+        // Rotate TX Handle
         tx.handles.transaction = new Handle().toSchema();
+        // Set others
+        if (tx.client && !tx.handles.client) {
+          tx.handles.client.value = tx.client.handle;
+        }
+        if (tx.user && !tx.handles.user) {
+          tx.handles.user.value = tx.user.handle;
+        }
+        if (tx.key && !tx.handles.key) {
+          tx.handles.key.value = tx.key.handle;
+        }
       } else {
         tx.handles = new HandleSet({
+          // Rotate TX Handle
           transaction: new Handle().toSchema()
         });
-      }
-
-      if (tx.client) {
-        if (!tx.handles.client) {
-          let h = new Handle();
-          let c = new ClientModel({
-            handle: h.value,
-            name: tx.client.name,
-            uri: tx.client.uri,
-            logo_uri: tx.client.logo_uri
-          });
-          tx.handles.client = h;
-          await c.save();
+        // Set others
+        if (tx.client && !tx.handles.client) {
+          tx.handles.client = new Handle();
+          tx.handles.client.value = tx.client.handle;
+        }
+        if (tx.user && !tx.handles.user) {
+          tx.handles.user = new Handle();
+          tx.handles.user.value = tx.user.handle;
+        }
+        if (tx.key && !tx.handles.key) {
+          tx.handles.key = new Handle();
+          tx.handles.key.value = tx.key.handle;
         }
       }
 

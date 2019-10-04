@@ -1,4 +1,4 @@
-import { KeyFull } from './keyModel';
+import { KeyRequest } from './keyModel';
 import { ClientRequest } from './clientModel';
 import { InteractRequest } from './interactModel';
 import { UserRequest } from './userModel';
@@ -12,7 +12,7 @@ export class TransactionRequest {
   interact: InteractRequest | string;
   user: UserRequest | string;
   resources: (ResourceRequest | string)[];
-  key: KeyFull | string;
+  key: KeyRequest | string;
 
   constructor(Obj: any) {
     if (Obj.handle) {
@@ -56,7 +56,7 @@ export class TransactionRequest {
       if (typeof Obj.key === 'string') {
         this.key = Obj.key;
       } else {
-        this.key = new KeyFull(Obj.key);
+        this.key = new KeyRequest(Obj.key);
       }
     }
   }
@@ -78,6 +78,26 @@ export class TransactionRequest {
   public getInteractDoc() {
     if (this.isInteractRequestFull()) {
       return (<InteractRequest>this.interact).toSchema();
+    }
+  }
+
+  public isUserRequestFull(): boolean {
+    return !(typeof this.user === 'string');
+  }
+
+  public getUserDoc() {
+    if (this.isUserRequestFull()) {
+      return (<UserRequest>this.user).toSchema();
+    }
+  }
+
+  public isKeyRequestFull(): boolean {
+    return !(typeof this.key === 'string');
+  }
+
+  public getKeyDoc() {
+    if (this.isKeyRequestFull()) {
+      return (<KeyRequest>this.key).toSchema();
     }
   }
 }
