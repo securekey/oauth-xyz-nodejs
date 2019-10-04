@@ -3,7 +3,6 @@ import { ClientRequest } from './clientModel';
 import { InteractRequest } from './interactModel';
 import { UserRequest } from './userModel';
 import { ResourceRequest } from './resourcesModel';
-import { O_NONBLOCK } from 'constants';
 
 export class TransactionRequest {
   handle: string;
@@ -30,7 +29,11 @@ export class TransactionRequest {
       this.resources = new Array<ResourceRequest>();
 
       Obj.resources.forEach((resource: any) => {
-        this.resources.push(new ResourceRequest(resource));
+        if (typeof resource === 'string') {
+          this.resources.push(resource);
+        } else {
+          this.resources.push(new ResourceRequest(resource));
+        }
       });
 
       this.key = new KeyFull(Obj.key);
@@ -38,7 +41,7 @@ export class TransactionRequest {
   }
 
   public isClientRequestFull(): boolean {
-    return (<ClientRequest>this.client).toSchema !== undefined;
+    return !(typeof this.client === 'string');
   }
 
   public getClientDoc() {
@@ -48,7 +51,7 @@ export class TransactionRequest {
   }
 
   public isInteractRequestFull(): boolean {
-    return (<InteractRequest>this.interact).toSchema !== undefined;
+    return !(typeof this.interact === 'string')
   }
 
   public getInteractDoc() {

@@ -61,6 +61,10 @@ class TransactionController {
       }
     }
 
+    if (txReq.resources) {
+      tx.resources = txReq.resources;
+    }
+
     if (tx) {
       // If tx in database has an interact handle
       if (tx.interact.interact_handle) {
@@ -108,20 +112,15 @@ class TransactionController {
         case 'issued':
           // refresh token?
           await tx.save();
-          return res.status(403).send({
-            message:
-              'An Access Token has already been issued for this transaction'
-          });
+          return res.status(403).send({message: "Access token has already been issued for this transaction"})
         case 'waiting':
           await tx.save();
           return res
             .status(202)
-            .send({ message: 'Transaction waiting, try again later...' });
+            .json(new TransactionResponse(tx));            
         case 'denied':
           await tx.save();
-          return res.send({
-            message: 'User denied authorization during interaction'
-          });
+          return res.json(new TransactionResponse(tx));
         case 'new':
           if (tx.interact && tx.interact.type) {
             switch (tx.interact.type) {

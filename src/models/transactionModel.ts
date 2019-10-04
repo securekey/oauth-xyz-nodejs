@@ -10,7 +10,7 @@ export const TransactionSchema = new mongoose.Schema({
   client: ClientSchema,
   interact: InteractSchema,
   user: UserSchema,
-  resource: ResourceSchema,
+  resources: [ResourceSchema],
   handles: HandleSetSchema,
   access_token: HandleSchema,
   status: {
