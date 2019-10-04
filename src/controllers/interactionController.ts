@@ -8,28 +8,39 @@ class InteractionController {
     var tx: any;
 
     if (req.cookies.pending_approval) {
-      try {
-        var transaction = await dataController.getTransactionByObject(
-          req.cookies.pending_approval
-        );
-        if (!transaction) {
-          return res.status(400).send({
-            message: 'Invalid cookie. Please clear your cookies and try again'
-          });
-        } else {
-          tx = transaction;
-          res.render('interact', {
-            title: 'Hello there!',
-            message: 'Authorization Request',
-            para: 'Do you agree to authorize Client XYZ on your behalf?',
-            resources: tx.resources
-          });
+      if (req.cookies.pending_approval.requireCode) {
+        return res.render('interact', {
+          userCode: true,
+          title: 'Hello there',
+          message: 'User Code',
+          para: 'Submit your User Code to continue'
+        });
+      } else {
+        try {
+          var transaction = await dataController.getTransactionByObject(
+            req.cookies.pending_approval
+          );
+          if (!transaction) {
+            return res.status(400).send({
+              message: 'Invalid cookie. Please clear your cookies and try again'
+            });
+          } else {
+            tx = transaction;
+            return res.render('interact', {
+              title: 'Hello there!',
+              message: 'Authorization Request',
+              para: 'Do you agree to authorize Client XYZ on your behalf?',
+              resources: tx.resources
+            });
+          }
+        } catch (err) {
+          return res.status(500).send(err);
         }
-      } catch (err) {
-        return res.status(500).send(err);
       }
     } else {
-      return res.status(400).send({message: "Hmmm... Looks like you're not supposed to be here"})
+      return res
+        .status(400)
+        .send({ message: "Hmmm... Looks like you're not supposed to be here" });
     }
   }
 
@@ -52,7 +63,7 @@ class InteractionController {
         return res.status(500).send(err);
       }
 
-      res.clearCookie("pending_approval");
+      res.clearCookie('pending_approval');
 
       if (tx) {
         tx.interact.interact_id = null;
@@ -69,7 +80,7 @@ class InteractionController {
         switch (tx.interact.type) {
           case 'device':
             await tx.save();
-            return res.send({ approved: true });
+            return res.send('Go back to your device to continue');
           case 'redirect':
             let interact_handle = utils.generateRandomString(30);
             tx.interact.interact_handle = interact_handle;
@@ -87,7 +98,7 @@ class InteractionController {
             return res.redirect(callbackUri);
           default:
             await tx.save();
-            return res.send({ approved: false });
+            return res.send('Something went wrong...');
         }
       } else {
         return res.status(404);
@@ -100,11 +111,52 @@ class InteractionController {
   }
 
   public async getInteractDevice(req: Request, res: Response) {
-    res.send('Device GET');
+    res.cookie('pending_approval', { requireCode: true });
+    return res.redirect('/interact');
   }
 
   public async postInteractDevice(req: Request, res: Response) {
-    res.send('device POST');
+    var tx: any;
+
+    if (req.cookies.pending_approval) {
+      var userCode = req.body.userCode;
+
+      // normalize the user code
+      userCode = userCode.replace('l', '1');
+      userCode = userCode.toUpperCase();
+      userCode = userCode.replace('0', 'O');
+      userCode = userCode.replace('I', '1');
+      userCode = userCode.replace(
+        new RegExp('[^123456789ABCDEFGHJKLMNOPQRSTUVWXYZ]'),
+        ''
+      );
+
+      try {
+        var transaction = await dataController.getTransactionByUserCode(
+          userCode
+        );
+        if (!transaction) {
+          return res.status(400).send('Invalid user code');
+        }
+
+        tx = transaction;
+      } catch (err) {
+        return res.status(500).send(err);
+      }
+
+      if (tx) {
+        tx.interact.user_code = null;
+        tx.interact.url = null;
+        res.clearCookie('pending_approval');
+        res.cookie('pending_approval', tx.toObject());
+        await tx.save();
+        return res.status(204).redirect('/interact');
+      }
+    } else {
+      return res
+        .status(400)
+        .send({ message: "Hmmm... Looks like you're not supposed to be here" });
+    }
   }
 
   public async getInteractId(req: Request, res: Response) {
@@ -113,6 +165,9 @@ class InteractionController {
 
     try {
       var transaction = await dataController.getTransactionByInteractId(id);
+      if (!transaction) {
+        return res.status(400).send('Invalid Interact ID');
+      }
       tx = transaction;
     } catch (err) {
       return res.status(500).send(err);
