@@ -3,16 +3,27 @@ import { render } from "react-dom";
 import logo from "./logo.svg";
 import "./App.css";
 
-function App() {
-  var http = new XMLHttpRequest();
+class App extends Component {
+  render() {
+    const axios = require("axios");
 
-  http.open("POST", "https://localhost:3000/transaction");
-  http.send(JSON.stringify({ example: "data" }));
-  return (
-    <div>
-      <p>Hello World!</p>
-    </div>
-  );
+    axios
+      .post("http://localhost:3000", {
+        sample: "data"
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    return (
+      <div>
+        <p>Hello World!</p>
+      </div>
+    );
+  }
 }
 
 export default App;
