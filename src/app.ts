@@ -37,8 +37,10 @@ class App {
     this.app.set("view engine", "pug");
 
     var cookieParser = require("cookie-parser");
+    var cors = require("cors");
 
     this.app.use(cookieParser());
+    this.app.use(cors());
     this.app.use(
       session({
         secret: "myCoolSecret", // just a long random string
@@ -46,11 +48,11 @@ class App {
         saveUninitialized: true
       })
     );
-    this.app.all("/", function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
-      next();
-    });
+    // this.app.all("/", function(req, res, next) {
+    //   res.header("Access-Control-Allow-Origin", "*");
+    //   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    //   next();
+    // });
   }
 
   private mongoSetup(): void {

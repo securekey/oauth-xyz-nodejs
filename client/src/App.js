@@ -8,8 +8,8 @@ class App extends Component {
     const axios = require("axios");
 
     axios
-      .post("http://localhost:3000", {
-        sample: "data"
+      .post("http://localhost:3000/transaction", {
+        handle: "CyZasHAsKKpZ4wCoIep7twzotlRYHA"
       })
       .then(function(response) {
         console.log(response);
@@ -27,20 +27,3 @@ class App extends Component {
 }
 
 export default App;
-
-// <div className="App">
-//   <header className="App-header">
-//     <img src={logo} className="App-logo" alt="logo" />
-//     <p>
-//       Edit <code>src/App.js</code> and save to reload.
-//     </p>
-//     <a
-//       className="App-link"
-//       href="https://reactjs.org"
-//       target="_blank"
-//       rel="noopener noreferrer"
-//     >
-//       Learn React
-//     </a>
-//   </header>
-// </div>
