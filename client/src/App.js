@@ -20,7 +20,11 @@ class App extends Component {
   //   }
   // }
 
+  redirectButton() {
+    return true;
+  }
   render() {
+    //<button onClick={redirectButton}>New Transaction</button>;
     //use axios for http requests
     const axios = require("axios");
 
@@ -68,6 +72,8 @@ class App extends Component {
     };
 
     var TxResponse = new Object();
+
+    // <button onClick={redirectButton}>New Transaction</button>;
 
     // First time Client interacts with AS. Send the full transaction details
     if (newTransaction) {
