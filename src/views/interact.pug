@@ -11,9 +11,9 @@ html
         else
             ul
                 each resource in resources
-                    li= 'Actions: ' + resource.actions
-                    li= 'Locations: ' + resource.locations
-                    li= 'Data: ' + resource.data
+                    li= 'Actions: ' + resource.actions.join(", ")
+                    li= 'Locations: ' + resource.locations.join(", ")
+                    li= 'Data: ' + resource.data.join(", ")
                     br
 
             form(action="/interact/approve", method="post")

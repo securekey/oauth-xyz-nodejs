@@ -7,6 +7,7 @@ import { ResourceRequest } from './resourcesModel';
 export class TransactionRequest {
   handle: string;
 
+  interact_handle: string;
   client: ClientRequest | string;
   interact: InteractRequest | string;
   user: UserRequest | string;
@@ -16,18 +17,33 @@ export class TransactionRequest {
   constructor(Obj: any) {
     if (Obj.handle) {
       this.handle = Obj.handle;
-    } else {
-      if (Obj.client) {
-        if (typeof Obj.client === 'string') {
-          this.client = Obj.client;
-        } else {
-          this.client = new ClientRequest(Obj.client);
-        }
+    }
+    if (Obj.interact_handle) {
+      this.interact_handle = Obj.interact_handle;
+    }
+    if (Obj.client) {
+      if (typeof Obj.client === 'string') {
+        this.client = Obj.client;
+      } else {
+        this.client = new ClientRequest(Obj.client);
       }
-      this.interact = new InteractRequest(Obj.interact);
-      this.user = new UserRequest(Obj.user);
+    }
+    if (Obj.interact) {
+      if (typeof Obj.interact === 'string') {
+        this.interact = Obj.interact;
+      } else {
+        this.interact = new InteractRequest(Obj.interact);
+      }
+    }
+    if (Obj.user) {
+      if (typeof Obj.user === 'string') {
+        this.user = Obj.user;
+      } else {
+        this.user = new UserRequest(Obj.user);
+      }
+    }
+    if (Obj.resources) {
       this.resources = new Array<ResourceRequest>();
-
       Obj.resources.forEach((resource: any) => {
         if (typeof resource === 'string') {
           this.resources.push(resource);
@@ -35,8 +51,13 @@ export class TransactionRequest {
           this.resources.push(new ResourceRequest(resource));
         }
       });
-
-      this.key = new KeyFull(Obj.key);
+    }
+    if (Obj.key) {
+      if (typeof Obj.key === 'string') {
+        this.key = Obj.key;
+      } else {
+        this.key = new KeyFull(Obj.key);
+      }
     }
   }
 
@@ -51,7 +72,7 @@ export class TransactionRequest {
   }
 
   public isInteractRequestFull(): boolean {
-    return !(typeof this.interact === 'string')
+    return !(typeof this.interact === 'string');
   }
 
   public getInteractDoc() {

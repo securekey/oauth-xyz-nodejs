@@ -68,16 +68,13 @@ class TransactionController {
     if (tx) {
       // If tx in database has an interact handle
       if (tx.interact.interact_handle) {
-        // if txReq doesnt have full interact object
-        if (!txReq.isInteractRequestFull()) {
-          // if txReq.interact is null or undefined
-          if (!txReq.interact) {
-            return res.status(400).send('Missing interaction handle');
-          }
+        // if txReq.interact_handle is null or undefined
+        if (!txReq.interact_handle) {
+          return res.status(400).send('Missing interaction handle');
+        }
 
-          if (txReq.interact !== sha3_512(tx.interact.interact_handle)) {
-            return res.status(400).send('Invalid interaction handle');
-          }
+        if (txReq.interact_handle !== sha3_512(tx.interact.interact_handle)) {
+          return res.status(400).send('Invalid interaction handle');
         }
       }
 
@@ -112,12 +109,12 @@ class TransactionController {
         case 'issued':
           // refresh token?
           await tx.save();
-          return res.status(403).send({message: "Access token has already been issued for this transaction"})
+          return res.status(403).send({
+            message: 'Access token has already been issued for this transaction'
+          });
         case 'waiting':
           await tx.save();
-          return res
-            .status(202)
-            .json(new TransactionResponse(tx));            
+          return res.status(202).json(new TransactionResponse(tx));
         case 'denied':
           await tx.save();
           return res.json(new TransactionResponse(tx));
