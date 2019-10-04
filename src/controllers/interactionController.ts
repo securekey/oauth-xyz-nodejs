@@ -1,23 +1,41 @@
 import { Request, Response } from 'express';
-import { Handle } from '../models/handleModel';
 import dataController from './dataController';
-import { TransactionModel } from '../models/transactionModel';
 import { UserModel } from '../models/userModel';
 import utils from '../utils/utils';
 import { sha3_512 } from 'js-sha3';
 class InteractionController {
   public async getInteract(req: Request, res: Response) {
-    res.render('interact', {
-      title: 'Hello there!',
-      message: 'Authorization Request',
-      para: 'Do you agree to authorize Client XYZ on your behalf?'
-    });
+    var tx: any;
+
+    if (req.cookies.pending_approval) {
+      try {
+        var transaction = await dataController.getTransactionByObject(
+          req.cookies.pending_approval
+        );
+        if (!transaction) {
+          return res.status(400).send({
+            message: 'Invalid cookie. Please clear your cookies and try again'
+          });
+        } else {
+          tx = transaction;
+          res.render('interact', {
+            title: 'Hello there!',
+            message: 'Authorization Request',
+            para: 'Do you agree to authorize Client XYZ on your behalf?',
+            resources: tx.resources
+          });
+        }
+      } catch (err) {
+        return res.status(500).send(err);
+      }
+    } else {
+      return res.status(400).send({message: "Hmmm... Looks like you're not supposed to be here"})
+    }
   }
 
   public async postInteractApprove(req: Request, res: Response) {
     var tx: any;
 
-    console.log(req.cookies);
     if (req.cookies.pending_approval) {
       try {
         var transaction = await dataController.getTransactionByObject(
@@ -33,17 +51,19 @@ class InteractionController {
       } catch (err) {
         return res.status(500).send(err);
       }
+
+      res.clearCookie("pending_approval");
+
       if (tx) {
         tx.interact.interact_id = null;
         tx.interact.url = null;
 
-        if (req.body.approved) {
+        if (req.body.approved === 'true') {
           tx.status = 'authorized';
           var user = new UserModel({ id: req.session.id });
           tx.user = user;
         } else {
           tx.status = 'denied';
-          // TODO: maybe save and return here?
         }
 
         switch (tx.interact.type) {

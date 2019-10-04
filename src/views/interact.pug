@@ -4,7 +4,12 @@ html
     body
         h1= message
         p= para
-
+        ul
+            each resource in resources
+                li= 'Actions: ' + resource.actions
+                li= 'Locations: ' + resource.locations
+                li= 'Data: ' + resource.data
+                br
         form(action="/interact/approve", method="post")
             button(type="submit", value="true", name="approved") Approve
             button(type="submit", value="false", name="approved") Decline

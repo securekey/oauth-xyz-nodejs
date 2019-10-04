@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import utils from "../utils/utils"
 
 enum Type {
   BEARER = "bearer",
@@ -31,10 +32,7 @@ export class Handle {
   type: Type;
 
   constructor() {
-    var random = Math.random();
-    random = Math.floor(random * Math.pow(10, 15));
-
-    this.value = random.toString();
+    this.value = utils.generateRandomString(30);
     this.type = Type.BEARER;
   }
 
