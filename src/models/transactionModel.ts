@@ -17,10 +17,6 @@ export const TransactionSchema = new mongoose.Schema({
     type: String,
     enum: ['new', 'issued', 'authorized', 'waiting', 'denied'],
     default: 'new'
-  },
-  requireCode: {
-    type: Boolean,
-    default: false
   }
 });
 
