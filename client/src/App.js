@@ -4,6 +4,22 @@ import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      gotIURL: false
+    };
+  }
+
+  // function signup() {
+  // return axios.post("/api/user/signup", { data })
+  //   .then(res => {
+  //     if (res.status === 200) {
+  //       this.setState({ gotIURL: true }); // after signing up, set the state to true. This will trigger a re-render
+  //     }
+  //   }
+  // }
+
   render() {
     //use axios for http requests
     const axios = require("axios");
@@ -51,16 +67,28 @@ class App extends Component {
       }
     };
 
+    var TxResponse = new Object();
+
     // First time Client interacts with AS. Send the full transaction details
     if (newTransaction) {
       axios
         .post("http://localhost:3000/transaction", txObject)
         .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
+          TxResponse = response;
+          console.log(TxResponse);
+          var IURL = TxResponse.data.interaction_url;
+          console.log(IURL);
+          //    if (this.state.gotIURL == false) {
+          window.location = IURL;
+          //    this.setState({ gotIURL: true });
+          //      }
         });
+      // .catch(function(error) {
+      //   console.log(error);
+      // });
+      // .then(function(IURL) {
+      //   axios.get(IURL.toString());
+      // });
     }
     // Continuing an existing transaction with AS. Send only the transaction handle
     else {
