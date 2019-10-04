@@ -1,14 +1,8 @@
-import * as mongoose from "mongoose";
-
-enum Type {
-  REDIRECT = "redirect",
-  DEVICE = "device"
-}
-
+import * as mongoose from 'mongoose';
 export const InteractSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ["redirect", "device"]
+    enum: ['redirect', 'device']
   },
   url: String,
   interact_id: String,
@@ -20,10 +14,10 @@ export const InteractSchema = new mongoose.Schema({
   user_code_url: String
 });
 
-const Interact = mongoose.model("Interact", InteractSchema);
+export const InteractModel = mongoose.model('Interact', InteractSchema);
 
 export class InteractRequest {
-  type: Type;
+  type: String;
   callback: String;
   nonce: String;
 
@@ -34,9 +28,9 @@ export class InteractRequest {
   }
 
   public toSchema() {
-    var interact = new Interact({
+    var interact = new InteractModel({
       callback: this.callback,
-      type: this.type.toString(),
+      type: this.type,
       client_nonce: this.nonce
     });
 

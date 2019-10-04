@@ -1,5 +1,7 @@
 import { TransactionModel } from '../models/transactionModel';
 import { ClientModel } from '../models/clientModel';
+import { UserRequestModel } from '../models/userModel';
+import { KeyModel } from '../models/keyModel';
 
 class DataController {
   // Transaction
@@ -28,6 +30,20 @@ class DataController {
   // Client
   public getClientByHandle(handle: string) {
     return ClientModel.findOne({
+      handle: handle
+    });
+  }
+
+  // User
+  public getUserByHandle(handle: string) {
+    return UserRequestModel.findOne({
+      handle: handle
+    });
+  }
+
+  // Key
+  public getKeyByHandle(handle: string) {
+    return KeyModel.findOne({
       handle: handle
     });
   }

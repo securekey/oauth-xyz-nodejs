@@ -1,9 +1,7 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import * as mongoose from "mongoose";
-import { Routes } from "./routes/routes";
-import { isNullOrUndefined } from "util";
-import * as session from "express-session";
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as mongoose from 'mongoose';
+import { Routes } from './routes/routes';
 
 class App {
   public app: express.Application;
@@ -23,8 +21,8 @@ class App {
     this.config();
     this.routes.routes(this.app);
 
-    if (this.mongoURL == "" || isNullOrUndefined(this.mongoURL)) {
-      console.error("FATAL: MongoDB URL is missing. Exiting...");
+    if (this.mongoURL == '' || !this.mongoURL) {
+      console.error('FATAL: MongoDB URL is missing. Exiting...');
       process.exit(1);
     }
     this.mongoSetup();
@@ -33,26 +31,14 @@ class App {
   private config(): void {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
-    this.app.set("views", __dirname + "/views");
-    this.app.set("view engine", "pug");
+    this.app.set('views', __dirname + '/views');
+    this.app.set('view engine', 'pug');
 
-    var cookieParser = require("cookie-parser");
-    var cors = require("cors");
+    var cookieParser = require('cookie-parser');
+    var cors = require('cors');
 
     this.app.use(cookieParser());
     this.app.use(cors());
-    this.app.use(
-      session({
-        secret: "myCoolSecret", // just a long random string
-        resave: false,
-        saveUninitialized: true
-      })
-    );
-    // this.app.all("/", function(req, res, next) {
-    //   res.header("Access-Control-Allow-Origin", "*");
-    //   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    //   next();
-    // });
   }
 
   private mongoSetup(): void {
@@ -61,21 +47,21 @@ class App {
   }
 }
 
-mongoose.connection.on("connected", () => {
-  console.log("Successfully connected to MongoDB!");
+mongoose.connection.on('connected', () => {
+  console.log('Successfully connected to MongoDB!');
 });
 
-mongoose.connection.on("error", (err: Error) => {
+mongoose.connection.on('error', (err: Error) => {
   console.error(
-    "ERROR: Something went wrong with MongoDB connection: " +
+    'ERROR: Something went wrong with MongoDB connection: ' +
       err +
-      ". Exiting..."
+      '. Exiting...'
   );
   process.exit(1);
 });
 
-mongoose.connection.on("disconnected", () => {
-  console.log("WARN: Disconnected from MongoDB");
+mongoose.connection.on('disconnected', () => {
+  console.log('WARN: Disconnected from MongoDB');
 });
 
 export default new App().app;
