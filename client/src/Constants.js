@@ -1,4 +1,4 @@
-var txObject = {
+export const txObject = {
   client: {
     name: "My Client Display Name",
     uri: "https://example.net/client"
@@ -38,3 +38,5 @@ var txObject = {
     }
   }
 };
+
+export const newTransaction = true;
