@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
-import { ClientSchema, ClientRequest } from './clientModel';
+import { ClientSchema } from './clientModel';
 import { InteractSchema } from './interactModel';
-import { UserSchema, UserRequestSchema } from './userModel';
+import { UserRequestSchema } from './userModel';
 import { ResourceSchema } from './resourcesModel';
 import { HandleSetSchema, HandleSchema } from './handleModel';
 

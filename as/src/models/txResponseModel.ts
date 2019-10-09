@@ -1,5 +1,5 @@
 import { Handle } from "./handleModel";
-import { TransactionModel } from "../models/transactionModel";
+import { TransactionModel } from "./transactionModel";
 
 export class TransactionResponse {
   // Next Step: Redirect
