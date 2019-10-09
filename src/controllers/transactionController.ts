@@ -9,6 +9,7 @@ import { sha3_512 } from 'js-sha3';
 import { ClientModel } from '../models/clientModel';
 import { UserRequestModel } from '../models/userModel';
 import { KeyModel } from '../models/keyModel';
+import { ResourcesModel } from '../models/resourcesModel';
 
 class TransactionController {
   public async postTransaction(req: Request, res: Response) {
@@ -105,9 +106,39 @@ class TransactionController {
         }
       }
 
-      // TODO: resource handles
       if (txReq.resources) {
-        tx.resources = txReq.resources;
+        for (var resource of txReq.resources) {
+          if (typeof resource === 'string') {
+            try {
+              let r = await dataController.getResourceByHandle(resource);
+              if (!r) {
+                return res
+                  .status(400)
+                  .send({ message: 'Invalid resource handle: ' + resource });
+              } else {
+                tx.resources.push(...r.toObject().resources);
+              }
+            } catch (err) {
+              return res.status(500).send(err);
+            }
+          } else {
+            tx.resources.push(resource);
+          }
+        }
+        let h = new Handle();
+        let r = new ResourcesModel({
+          handle: h.value,
+          resources: tx.resources
+        });
+        tx.resources.handle = h.value;
+        await r.save();
+        if (tx.handles) {
+          tx.handles.resource = h;
+        } else {
+          tx.handles = new HandleSet({
+            resource: h
+          });
+        }
       }
 
       if (txReq.isKeyRequestFull()) {
@@ -158,34 +189,27 @@ class TransactionController {
       if (tx.handles) {
         // Rotate TX Handle
         tx.handles.transaction = new Handle().toSchema();
-        // Set others
-        if (tx.client && !tx.handles.client) {
-          tx.handles.client.value = tx.client.handle;
-        }
-        if (tx.user && !tx.handles.user) {
-          tx.handles.user.value = tx.user.handle;
-        }
-        if (tx.key && !tx.handles.key) {
-          tx.handles.key.value = tx.key.handle;
-        }
       } else {
         tx.handles = new HandleSet({
           // Rotate TX Handle
           transaction: new Handle().toSchema()
         });
-        // Set others
-        if (tx.client && !tx.handles.client) {
-          tx.handles.client = new Handle();
-          tx.handles.client.value = tx.client.handle;
-        }
-        if (tx.user && !tx.handles.user) {
-          tx.handles.user = new Handle();
-          tx.handles.user.value = tx.user.handle;
-        }
-        if (tx.key && !tx.handles.key) {
-          tx.handles.key = new Handle();
-          tx.handles.key.value = tx.key.handle;
-        }
+      }
+      if (tx.client && !tx.handles.client) {
+        tx.handles.client = new Handle();
+        tx.handles.client.value = tx.client.handle;
+      }
+      if (tx.user && !tx.handles.user) {
+        tx.handles.user = new Handle();
+        tx.handles.user.value = tx.user.handle;
+      }
+      if (tx.key && !tx.handles.key) {
+        tx.handles.key = new Handle();
+        tx.handles.key.value = tx.key.handle;
+      }
+      if (tx.resources && !tx.handles.resource) {
+        tx.handles.resource = new Handle();
+        tx.handles.resource.value = tx.resources.handle;
       }
 
       switch (tx.status) {
