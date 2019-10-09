@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 
 export const ResourceSchema = new mongoose.Schema({
   actions: [String],
@@ -6,7 +6,13 @@ export const ResourceSchema = new mongoose.Schema({
   data: [String]
 });
 
-const Resource = mongoose.model("Resource", ResourceSchema);
+export const ResourcesSchema = new mongoose.Schema({
+  handle: String,
+  resources: [ResourceSchema]
+});
+export const ResourceModel = mongoose.model('Resource', ResourceSchema);
+
+export const ResourcesModel = mongoose.model('Resources', ResourcesSchema);
 
 export class ResourceRequest {
   actions: String[];
@@ -20,7 +26,7 @@ export class ResourceRequest {
   }
 
   public toSchema() {
-    var resource = new Resource({
+    var resource = new ResourceModel({
       actions: this.actions,
       locations: this.locations,
       data: this.data
