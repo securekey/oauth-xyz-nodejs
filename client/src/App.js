@@ -13,7 +13,19 @@ class App extends Component {
 
   redirectButton() {
     axios
-      .post("http://localhost:3000/transaction", constants.txObject)
+      .post("http://localhost:3000/transaction", constants.txObjectRedirect)
+      .then(function(response) {
+        let TxResponse = response;
+        console.log(TxResponse);
+        var IURL = TxResponse.data.interaction_url;
+        console.log(IURL);
+        window.location = IURL;
+      });
+  }
+
+  deviceButton() {
+    axios
+      .post("http://localhost:3000/transaction", constants.txObjectDevice)
       .then(function(response) {
         let TxResponse = response;
         console.log(TxResponse);
@@ -24,32 +36,6 @@ class App extends Component {
   }
 
   render() {
-    //First time Client interacts with AS. Send the full transaction details
-    // if (constants.newTransaction) {
-    //   axios
-    //     .post("http://localhost:3000/transaction", constants.txObject)
-    //     .then(function(response) {
-    //       let TxResponse = response;
-    //       console.log(TxResponse);
-    //       var IURL = TxResponse.data.interaction_url;
-    //       console.log(IURL);
-    //       window.location = IURL;
-    //     });
-    // }
-    // // Continuing an existing transaction with AS. Send only the transaction handle
-    // else {
-    //   axios
-    //     .post("http://localhost:3000/transaction", {
-    //       handle: "CyZasHAsKKpZ4wCoIep7twzotlRYHA"
-    //     })
-    //     .then(function(response) {
-    //       console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.log(error);
-    //     });
-    // }
-
     return (
       <div>
         <p>OAuthXYZ Client</p>
@@ -59,6 +45,13 @@ class App extends Component {
           }}
         >
           New Transaction
+        </button>
+        <button
+          onClick={() => {
+            this.redirectButton();
+          }}
+        >
+          New Device Transaction
         </button>
       </div>
     );
