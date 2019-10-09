@@ -29,9 +29,9 @@ class App extends Component {
       .then(function(response) {
         let TxResponse = response;
         console.log(TxResponse);
-        var IURL = TxResponse.data.interaction_url;
-        console.log(IURL);
-        window.location = IURL;
+        var userCode = TxResponse.data.user_code;
+        console.log(userCode);
+        // window.location = IURL;
       });
   }
 
@@ -48,7 +48,7 @@ class App extends Component {
         </button>
         <button
           onClick={() => {
-            this.redirectButton();
+            this.deviceButton();
           }}
         >
           New Device Transaction
