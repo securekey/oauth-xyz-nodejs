@@ -5,7 +5,7 @@ export const txObject = {
   },
   interact: {
     type: "redirect",
-    callback: "https://client.example.net/return/123455",
+    callback: "http://localhost:3001/redirect",
     nonce: "LKLTI25DK82FX4T4QFZC"
   },
   user: {
@@ -40,3 +40,5 @@ export const txObject = {
 };
 
 export const newTransaction = true;
+var Test = "testttt";
+export default window.Test;
