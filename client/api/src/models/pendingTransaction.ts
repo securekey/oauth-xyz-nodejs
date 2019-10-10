@@ -6,6 +6,7 @@ const EntrySchema = new mongoose.Schema({
   response: mongoose.Schema.Types.Mixed
 });
 
+export const EntryModel = new mongoose.model('Entry', EntrySchema);
 export const PendingTransactionSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   entries: [EntrySchema],

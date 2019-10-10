@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import routesController from '../controllers/routesController';
 
 export class Routes {
   public routes(app): void {
@@ -8,14 +9,14 @@ export class Routes {
       });
     });
 
-    app.route('/redirect').post();
+    app.route('/redirect').post(routesController.postRedirect);
 
-    app.route('/device').post();
+    app.route('/device').post(routesController.postDevice);
 
-    app.route('/pending').get();
+    app.route('/pending').get(routesController.getPending);
 
-    app.route('/callback/:id').get();
+    app.route('/callback/:id').get(routesController.getCallbackId);
 
-    app.route('/poll/:id').get();
+    app.route('/poll/:id').get(routesController.getPollId);
   }
 }

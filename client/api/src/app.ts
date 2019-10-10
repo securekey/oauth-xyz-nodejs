@@ -33,7 +33,16 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     var cors = require('cors');
+    var session = require('express-session');
 
+    this.app.use(
+      session({
+        secret: 'secretValue',
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }
+      })
+    );
     this.app.use(cors());
   }
 
