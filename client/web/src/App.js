@@ -63,7 +63,8 @@ class App extends Component {
         >
           New Device Transaction
         </button>
-        <TxComponent />
+        <TxComponent txObject="testObj" />
+        //Access DB to pass txObject to the component
       </div>
     );
   }

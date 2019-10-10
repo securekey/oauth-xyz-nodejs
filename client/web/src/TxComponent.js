@@ -8,10 +8,25 @@ import * as constants from "./Constants.js";
 import queryString from "query-string";
 
 class TxComponent extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props.txObject);
+  }
+  polling() {
+    console.log("hi polling");
+  }
   render() {
     return (
       <div>
         <p>Tx Component</p>
+        <button
+          onClick={() => {
+            this.polling();
+          }}
+        >
+          Poll
+        </button>
+        //Get the TX object from props.txObject
       </div>
     );
   }

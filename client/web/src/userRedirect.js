@@ -6,6 +6,9 @@ import * as constants from "./Constants.js";
 import TxComponent from "./TxComponent";
 
 class UserRedirect extends Component {
+  redirectToHome() {
+    window.location = "http://localhost:5000";
+  }
   render() {
     const values = queryString.parse(this.props.location.search);
     console.log("the hash is: " + values.hash);
@@ -14,7 +17,18 @@ class UserRedirect extends Component {
 
     return (
       <div>
-        <p>OAuthXYZ Client INTERACT</p>
+        <p>
+          OAuthXYZ Client INTERACT. Thank you "User", the OAuth flow is
+          complete. Click button to return to Main Page and see what the Client
+          is doing in the background
+        </p>
+        <button
+          onClick={() => {
+            this.redirectToHome();
+          }}
+        >
+          Return
+        </button>
       </div>
     );
   }
