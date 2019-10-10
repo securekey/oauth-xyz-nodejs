@@ -5,6 +5,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import * as axios from "axios";
 import * as constants from "./Constants.js";
+import TxComponent from "./TxComponent";
 
 class App extends Component {
   constructor(props) {
@@ -24,14 +25,23 @@ class App extends Component {
   }
 
   deviceButton() {
+    var TransactionHandle;
     axios
       .post("http://localhost:3000/transaction", constants.txObjectDevice)
       .then(function(response) {
         let TxResponse = response;
         console.log(TxResponse);
         var userCode = TxResponse.data.user_code;
-        console.log(userCode);
-        // window.location = IURL;
+        console.log("The user code is: " + userCode);
+        TransactionHandle = TxResponse.data.handle.value;
+        console.log("The transaction handle is: " + TransactionHandle);
+        window.location = "http://localhost:5000/device";
+        return axios
+          .post("http://localhost:3000/transaction", TransactionHandle)
+          .then(function(response) {
+            let resp = response;
+            console.log("the respnse is" + resp);
+          });
       });
   }
 
@@ -53,6 +63,7 @@ class App extends Component {
         >
           New Device Transaction
         </button>
+        <TxComponent />
       </div>
     );
   }

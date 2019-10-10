@@ -5,7 +5,7 @@ export const txObjectRedirect = {
   },
   interact: {
     type: "redirect",
-    callback: "http://localhost:3001/redirect",
+    callback: "http://localhost:5000/redirect",
     nonce: "LKLTI25DK82FX4T4QFZC"
   },
   user: {

@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import * as axios from "axios";
 import queryString from "query-string";
 import * as constants from "./Constants.js";
+import TxComponent from "./TxComponent";
 
 class UserRedirect extends Component {
   render() {
@@ -13,7 +14,7 @@ class UserRedirect extends Component {
 
     return (
       <div>
-        <p>OAuthXYZ Client</p>
+        <p>OAuthXYZ Client INTERACT</p>
       </div>
     );
   }
