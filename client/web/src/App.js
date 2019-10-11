@@ -70,7 +70,7 @@ class App extends Component {
         >
           Get Transactions
         </button>
-        <TxComponent txObject="testObj" />
+        {pending}
       </div>
     );
   }
