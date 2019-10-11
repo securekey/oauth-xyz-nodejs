@@ -11,6 +11,9 @@ class TxComponent extends Component {
   constructor(props) {
     super(props);
     console.log(this.props.txObject);
+    this.state = {
+      transaction: props.transaction
+    };
   }
   polling() {
     console.log("hi polling");
