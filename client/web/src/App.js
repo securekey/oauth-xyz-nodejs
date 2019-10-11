@@ -39,6 +39,12 @@ class App extends Component {
     });
   }
 
+  clearTransactions() {
+    axios.post('http://localhost:3001/clear').then(resp => {
+      this.loadPendingTransactions();
+    });
+  }
+
   render() {
     const pending = this.state.transactions
       .map(transaction => (
@@ -69,6 +75,13 @@ class App extends Component {
           }}
         >
           Get Transactions
+        </button>
+        <button
+          onClick={() => {
+            this.clearTransactions();
+          }}
+        >
+          Clear Transactions
         </button>
         {pending}
       </div>

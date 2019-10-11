@@ -18,5 +18,7 @@ export class Routes {
     app.route('/callback/:id').get(routesController.getCallbackId);
 
     app.route('/poll/:id').get(routesController.getPollId);
+
+    app.route('/clear').post(routesController.postClear);
   }
 }
