@@ -12,7 +12,7 @@ class TxComponent extends Component {
     super(props);
     console.log(this.props.txObject);
     this.state = {
-      transaction: props.transaction
+      transaction: props.txObject
     };
   }
   polling() {
@@ -29,7 +29,6 @@ class TxComponent extends Component {
         >
           Poll
         </button>
-        //Get the TX object from props.txObject
       </div>
     );
   }
