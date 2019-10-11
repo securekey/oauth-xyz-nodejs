@@ -59,6 +59,8 @@ class RoutesController {
       }
     };
 
+    let bodyTx = req.body.tx;
+    txRequest = bodyTx ? bodyTx : txRequest;
     request.post(
       {
         url: asTransactionURL,
@@ -130,6 +132,8 @@ class RoutesController {
       }
     };
 
+    let bodyTx = req.body.tx;
+    txRequest = bodyTx ? bodyTx : txRequest;
     request.post(
       {
         url: asTransactionURL,
