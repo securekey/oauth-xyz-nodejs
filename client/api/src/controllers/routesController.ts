@@ -164,6 +164,14 @@ class RoutesController {
       return res.status(500).send(err);
     }
   }
+  public async postClear(req: Request, res: Response) {
+    try {
+      await dataController.clearAllTransactions();
+      return res.sendStatus(200);
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  }
   public async getCallbackId(req: Request, res: Response) {
     let callback_id = req.params.id;
     try {

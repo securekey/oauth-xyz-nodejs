@@ -24,6 +24,10 @@ class DataController {
       owner: owner
     });
   }
+
+  public clearAllTransactions() {
+    return PendingTransactionModel.remove({});
+  }
 }
 
 export default new DataController();
