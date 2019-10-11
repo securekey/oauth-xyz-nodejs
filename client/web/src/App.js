@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-expressions */
-import React, { Component } from 'react';
-import './App.css';
-import * as axios from 'axios';
-import TxComponent from './TxComponent';
+import React, { Component } from "react";
+import "./App.css";
+import * as axios from "axios";
+import * as constants from "./Constants.js";
+import TxComponent from "./TxComponent";
 
 class App extends Component {
   constructor(props) {
@@ -14,50 +15,56 @@ class App extends Component {
 
   async loadPendingTransactions() {
     let currentComponent = this;
-    let res = await axios.get('http://localhost:3001/pending');
-    console.log('pending transaction response is: ' + JSON.stringify(res.data));
+    let res = await axios.get("http://localhost:3001/pending");
+    console.log("pending transaction response is: " + JSON.stringify(res.data));
     currentComponent.setState({ transactions: res.data });
   }
 
   async newRedirectTransaction() {
-    await axios.post('http://localhost:3001/redirect');
+    await axios.post("http://localhost:3001/redirect");
   }
 
   async newDeviceTransaction() {
-    await axios.post('http://localhost:3001/device');
+    await axios.post("http://localhost:3001/device");
   }
 
   async clearTransactions() {
-    await axios.post('http://localhost:3001/clear');
+    await axios.post("http://localhost:3001/clear");
     this.loadPendingTransactions();
   }
-
+  modifyRedirectBody() {}
+  modifyDeviceBody() {}
   render() {
     const pending = this.state.transactions
       .map(transaction => (
         <TxComponent key={transaction._id} txObject={transaction} />
       ))
       .reverse(); // newest first
-    var txObjectRedirect = this.txObject;
+
     return (
       <div>
         <p>OAuthXYZ Client</p>
-        <form action="/action_page.php">
-          Redirect Body{" "}
-          <input
-            type="text"
+        <form>
+          Redirect Body
+          <textarea
+            cols="100"
             name="RedirectBody"
-            value={JSON.stringify(this.txObjectRedirect)}
+            rows="30"
+            value={JSON.stringify(constants.txObjectRedirect, undefined, 4)}
+            onChange={e => this.modifyRedirectBody(e)}
           />
           <br />
-          Device Body <input type="text" name="DeviceBody" />
+          Device Body
+          <textarea
+            cols="100"
+            name="RedirectBody"
+            rows="30"
+            value={JSON.stringify(constants.txObjectDevice, undefined, 4)}
+            onChange={e => this.modifyDeviceBody(e)}
+          />
           <br />
         </form>
-        <input
-          type="text"
-          value="Test vale"
-          //  onChange={e => this.handleInputChange(e)}
-        />
+
         <button
           onClick={() => {
             this.newRedirectTransaction();
