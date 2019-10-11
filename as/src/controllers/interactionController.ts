@@ -76,8 +76,6 @@ class InteractionController {
           tx.status = 'denied';
         }
 
-        tx.status = 'authorized';
-
         switch (tx.interact.type) {
           case 'device':
             await tx.save();

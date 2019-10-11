@@ -237,10 +237,13 @@ class RoutesController {
 
       let lastEntry = pending.entries[pending.entries.length - 1];
       let lastResponse = lastEntry.response;
+      let lastRequest = lastEntry.request;
       let txRequest = {
-        handle: lastResponse.handle.value
+        handle: lastResponse.handle.value,
+        interact_handle: lastRequest.interact_handle
+          ? lastRequest.interact_handle
+          : null
       };
-
       request.post(
         {
           url: asTransactionURL,
