@@ -47,3 +47,12 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=docker
     ports:
       - '27018:27018'
+  web:
+    build: ./client/web
+    ports:
+      - '5000:5000'
+    restart: unless-stopped
+    links:
+      - client-api
+    depends_on:
+      - client-api
