@@ -19,41 +19,16 @@ class App extends Component {
 
   loadPendingTransactions() {}
 
-  newRedirectTransaction() {}
-
-  newDeviceTransaction() {}
-
-  redirectButton() {
-    axios
-      .post('http://localhost:3000/transaction', constants.txObjectRedirect)
-      .then(function(response) {
-        let TxResponse = response;
-        console.log(TxResponse);
-        var IURL = TxResponse.data.interaction_url;
-        console.log(IURL);
-        window.location = IURL;
-      });
+  newRedirectTransaction() {
+    axios.post('http://localhost:3001/redirect').then(resp => {
+      this.loadPendingTransactions();
+    });
   }
 
-  deviceButton() {
-    var TransactionHandle;
-    axios
-      .post('http://localhost:3000/transaction', constants.txObjectDevice)
-      .then(function(response) {
-        let TxResponse = response;
-        console.log(TxResponse);
-        var userCode = TxResponse.data.user_code;
-        console.log('The user code is: ' + userCode);
-        TransactionHandle = TxResponse.data.handle.value;
-        console.log('The transaction handle is: ' + TransactionHandle);
-        window.location = 'http://localhost:5000/device';
-        return axios
-          .post('http://localhost:3000/transaction', TransactionHandle)
-          .then(function(response) {
-            let resp = response;
-            console.log('the respnse is' + resp);
-          });
-      });
+  newDeviceTransaction() {
+    axios.post('http://localhost:3001/device').then(resp => {
+      this.loadPendingTransactions();
+    });
   }
 
   render() {
@@ -62,20 +37,19 @@ class App extends Component {
         <p>OAuthXYZ Client</p>
         <button
           onClick={() => {
-            this.redirectButton();
+            this.newRedirectTransaction();
           }}
         >
-          New Transaction
+          New Redirect Transaction
         </button>
         <button
           onClick={() => {
-            this.deviceButton();
+            this.newDeviceTransaction();
           }}
         >
           New Device Transaction
         </button>
         <TxComponent txObject="testObj" />
-        //Access DB to pass txObject to the component
       </div>
     );
   }
