@@ -21,19 +21,24 @@ class App extends Component {
   }
 
   async newRedirectTransaction() {
-    await axios.post("http://localhost:3001/redirect");
+    const redirectmessage = {
+      data: { tx: document.getElementById("RedirectBody").value }
+    };
+    await axios.post("http://localhost:3001/redirect", redirectmessage);
   }
 
   async newDeviceTransaction() {
-    await axios.post("http://localhost:3001/device");
+    const devicemessage = {
+      data: { tx: document.getElementById("DeviceBody").value }
+    };
+    await axios.post("http://localhost:3001/device", devicemessage);
   }
 
   async clearTransactions() {
     await axios.post("http://localhost:3001/clear");
     this.loadPendingTransactions();
   }
-  modifyRedirectBody() {}
-  modifyDeviceBody() {}
+
   render() {
     const pending = this.state.transactions
       .map(transaction => (
@@ -48,19 +53,17 @@ class App extends Component {
           Redirect Body
           <textarea
             cols="100"
-            name="RedirectBody"
+            id="RedirectBody"
             rows="30"
             value={JSON.stringify(constants.txObjectRedirect, undefined, 4)}
-            onChange={e => this.modifyRedirectBody(e)}
           />
           <br />
           Device Body
           <textarea
             cols="100"
-            name="RedirectBody"
+            id="RedirectBody"
             rows="30"
             value={JSON.stringify(constants.txObjectDevice, undefined, 4)}
-            onChange={e => this.modifyDeviceBody(e)}
           />
           <br />
         </form>
