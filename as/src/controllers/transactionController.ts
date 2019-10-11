@@ -15,7 +15,6 @@ class TransactionController {
   public async postTransaction(req: Request, res: Response) {
     var txReq = new TransactionRequest(req.body);
     var tx: any;
-
     // If the transaction request carries a transaction handle
     if (txReq.handle) {
       // Try to get the referenced TX from the database

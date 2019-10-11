@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions */
-import React, { Component } from "react";
-import "./App.css";
-import * as axios from "axios";
-import * as constants from "./Constants.js";
-import TxComponent from "./TxComponent";
+import React, { Component } from 'react';
+import './App.css';
+import * as axios from 'axios';
+import * as constants from './Constants.js';
+import TxComponent from './TxComponent';
 
 class App extends Component {
   constructor(props) {
@@ -14,13 +14,13 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    document.getElementById("RedirectBody").value = JSON.stringify(
+    document.getElementById('RedirectBody').value = JSON.stringify(
       constants.txObjectRedirect,
       undefined,
       4
     );
 
-    document.getElementById("DeviceBody").value = JSON.stringify(
+    document.getElementById('DeviceBody').value = JSON.stringify(
       constants.txObjectDevice,
       undefined,
       4
@@ -29,27 +29,30 @@ class App extends Component {
 
   async loadPendingTransactions() {
     let currentComponent = this;
-    let res = await axios.get("http://localhost:3001/pending");
-    console.log("pending transaction response is: " + JSON.stringify(res.data));
+    let res = await axios.get('http://localhost:3001/pending');
+    console.log('pending transaction response is: ' + JSON.stringify(res.data));
     currentComponent.setState({ transactions: res.data });
   }
 
   async newRedirectTransaction() {
+    console.log(JSON.parse(document.getElementById('RedirectBody').value));
     const redirectmessage = {
-      data: { tx: document.getElementById("RedirectBody").value }
+      data: { tx: JSON.parse(document.getElementById('RedirectBody').value) }
     };
-    await axios.post("http://localhost:3001/redirect", redirectmessage);
+    await axios.post('http://localhost:3001/redirect', redirectmessage);
   }
 
   async newDeviceTransaction() {
+    console.log(JSON.parse(document.getElementById('DeviceBody').value));
+
     const devicemessage = {
-      data: { tx: document.getElementById("DeviceBody").value }
+      data: { tx: JSON.parse(document.getElementById('DeviceBody').value) }
     };
-    await axios.post("http://localhost:3001/device", devicemessage);
+    await axios.post('http://localhost:3001/device', devicemessage);
   }
 
   async clearTransactions() {
-    await axios.post("http://localhost:3001/clear");
+    await axios.post('http://localhost:3001/clear');
     this.loadPendingTransactions();
   }
 
