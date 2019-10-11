@@ -20,9 +20,9 @@ class App extends Component {
   loadPendingTransactions() {
     let currentComponent = this;
     axios.get("http://localhost:3001/pending").then(function(response) {
-      // console.log(
-      //   "pending transaction response is: " + JSON.stringify(response.data)
-      // );
+      console.log(
+        "pending transaction response is: " + JSON.stringify(response.data)
+      );
       currentComponent.setState({ transactions: response.data });
     });
   }
@@ -70,7 +70,6 @@ class App extends Component {
         >
           Get Transactions
         </button>
-        <TxComponent txObject="testObj" />
       </div>
     );
   }
