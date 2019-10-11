@@ -61,7 +61,7 @@ class App extends Component {
           Device Body
           <textarea
             cols="100"
-            id="RedirectBody"
+            id="DeviceBody"
             rows="30"
             value={JSON.stringify(constants.txObjectDevice, undefined, 4)}
           />
