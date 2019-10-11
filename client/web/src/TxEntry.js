@@ -10,8 +10,8 @@ class TxEntry extends Component {
     if (this.props.entry.response.access_token) {
       elements.push(
         ...[
-          <dt className="col-sm-3">Access Token</dt>,
-          <dd className="col-sm-9">
+          <dt>Access Token</dt>,
+          <dd>
             <AccessToken token={this.props.entry.response.access_token} />
           </dd>
         ]
@@ -21,8 +21,8 @@ class TxEntry extends Component {
     if (this.props.entry.response.handle) {
       elements.push(
         ...[
-          <dt className="col-sm-3">Transaction Handle</dt>,
-          <dd className="col-sm-9">{this.props.entry.response.handle.value}</dd>
+          <dt>Transaction Handle</dt>,
+          <dd>{this.props.entry.response.handle.value}</dd>
         ]
       );
     }
@@ -30,14 +30,14 @@ class TxEntry extends Component {
     if (this.props.entry.response.user_code) {
       elements.push(
         ...[
-          <dt className="col-sm-3">User Code URL</dt>,
-          <dd className="col-sm-9">
+          <dt>User Code URL</dt>,
+          <dd>
             <a href={this.props.entry.response.user_code_url}>
               {this.props.entry.response.user_code_url}
             </a>
           </dd>,
-          <dt className="col-sm-3">User Code</dt>,
-          <dd className="col-sm-9">
+          <dt>User Code</dt>,
+          <dd>
             <UserCode userCode={this.props.entry.response.user_code} />
           </dd>
         ]
@@ -46,8 +46,8 @@ class TxEntry extends Component {
     if (this.props.entry.response.interaction_url) {
       elements.push(
         ...[
-          <dt className="col-sm-3">Interaction URL</dt>,
-          <dd className="col-sm-9">
+          <dt>Interaction URL</dt>,
+          <dd>
             <a href={this.props.entry.response.interaction_url}>
               {this.props.entry.response.interaction_url}
             </a>
@@ -58,15 +58,12 @@ class TxEntry extends Component {
 
     if (this.props.entry.response.message) {
       elements.push(
-        ...[
-          <dt className="col-sm-3">Message</dt>,
-          <dd className="col-sm-9">{this.props.entry.response.message}</dd>
-        ]
+        ...[<dt>Message</dt>, <dd>{this.props.entry.response.message}</dd>]
       );
     }
 
     return (
-      <div className={this.props.last ? null : 'card'}>
+      <div className="card">
         <dl className="row">{elements}</dl>
       </div>
     );

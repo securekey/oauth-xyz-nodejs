@@ -24,7 +24,6 @@
 .card {
   padding-top: 5px;
   margin-top: 1em;
-  margin-bottom: 1em;
   background-color: lightgrey;
 }
 
@@ -79,6 +78,11 @@ dd {
 .log {
   font-size: 24px;
 }
+.title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
 .inline-div {
   display: inline-block;
 }
@@ -87,4 +91,8 @@ dd {
   border: 2px solid red;
   margin-left: 5vw;
   width: 40vw;
+}
+
+hr {
+  border: 1px solid red;
 }

@@ -65,21 +65,23 @@ class App extends Component {
 
     return (
       <div>
-        <p>OAuthXYZ Client</p>
-        <div class="inline-div">
+        <center>
+          <p className="title">OAuthXYZ Client</p>
+        </center>
+        <div className="inline-div">
           <p align="center">Redirect Body</p>
           <textarea
-            class="inline-txtarea"
+            className="inline-txtarea"
             cols="100"
             id="RedirectBody"
             rows="30"
           />
         </div>
         &nbsp; &nbsp;
-        <div class="inline-div">
+        <div className="inline-div">
           <p align="center">Device Body</p>
           <textarea
-            class="inline-txtarea"
+            className="inline-txtarea"
             cols="100"
             id="DeviceBody"
             rows="30"
@@ -88,7 +90,7 @@ class App extends Component {
         <br /> <br /> <br />
         <center>
           <button
-            class="txButton"
+            className="txButton"
             onClick={() => {
               this.newRedirectTransaction();
             }}
@@ -96,7 +98,7 @@ class App extends Component {
             New Redirect Transaction
           </button>
           <button
-            class="txButton"
+            className="txButton"
             onClick={() => {
               this.newDeviceTransaction();
             }}
@@ -104,7 +106,7 @@ class App extends Component {
             New Device Transaction
           </button>
           <button
-            class="txButton"
+            className="txButton"
             onClick={() => {
               this.loadPendingTransactions();
             }}
@@ -112,7 +114,7 @@ class App extends Component {
             Get Transactions
           </button>
           <button
-            class="txButton"
+            className="txButton"
             onClick={() => {
               this.clearTransactions();
             }}

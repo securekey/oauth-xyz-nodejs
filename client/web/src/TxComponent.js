@@ -26,7 +26,7 @@ class TxComponent extends Component {
   }
   render() {
     return (
-      <div class="card">
+      <div className="card">
         <button
           className="button"
           onClick={() => {
