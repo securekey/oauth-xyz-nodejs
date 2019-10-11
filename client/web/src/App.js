@@ -63,43 +63,60 @@ class App extends Component {
     return (
       <div>
         <p>OAuthXYZ Client</p>
-        <form>
-          Redirect Body
-          <textarea cols="100" id="RedirectBody" rows="30" />
-          <br />
-          Device Body
-          <textarea cols="100" id="DeviceBody" rows="30" />
-          <br />
-        </form>
-
-        <button
-          onClick={() => {
-            this.newRedirectTransaction();
-          }}
-        >
-          New Redirect Transaction
-        </button>
-        <button
-          onClick={() => {
-            this.newDeviceTransaction();
-          }}
-        >
-          New Device Transaction
-        </button>
-        <button
-          onClick={() => {
-            this.loadPendingTransactions();
-          }}
-        >
-          Get Transactions
-        </button>
-        <button
-          onClick={() => {
-            this.clearTransactions();
-          }}
-        >
-          Clear Transactions
-        </button>
+        <div class="inline-div">
+          <p align="center">Redirect Body</p>
+          <textarea
+            class="inline-txtarea"
+            cols="100"
+            id="RedirectBody"
+            rows="30"
+          />
+        </div>
+        &nbsp; &nbsp;
+        <div class="inline-div">
+          <p align="center">Device Body</p>
+          <textarea
+            class="inline-txtarea"
+            cols="100"
+            id="DeviceBody"
+            rows="30"
+          />
+        </div>
+        <br /> <br /> <br />
+        <center>
+          <button
+            class="txButton"
+            onClick={() => {
+              this.newRedirectTransaction();
+            }}
+          >
+            New Redirect Transaction
+          </button>
+          <button
+            class="txButton"
+            onClick={() => {
+              this.newDeviceTransaction();
+            }}
+          >
+            New Device Transaction
+          </button>
+          <button
+            class="txButton"
+            onClick={() => {
+              this.loadPendingTransactions();
+            }}
+          >
+            Get Transactions
+          </button>
+          <button
+            class="txButton"
+            onClick={() => {
+              this.clearTransactions();
+            }}
+          >
+            Clear Transactions
+          </button>
+        </center>
         {pending}
       </div>
     );
