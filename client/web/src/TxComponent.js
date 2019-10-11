@@ -14,6 +14,7 @@ class TxComponent extends Component {
     this.state = {
       transaction: props.txObject
     };
+    this.forceUpdate();
   }
   polling() {
     console.log("hi polling");

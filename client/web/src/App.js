@@ -13,11 +13,6 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    this.loadPendingTransactions();
-    this.forceUpdate();
-  }
-
   loadPendingTransactions() {
     let currentComponent = this;
     axios.get("http://localhost:3001/pending").then(function(response) {
@@ -29,19 +24,15 @@ class App extends Component {
   }
 
   newRedirectTransaction() {
-    axios.post("http://localhost:3001/redirect").then(resp => {
-      this.loadPendingTransactions();
-    });
+    axios.post("http://localhost:3001/redirect").then(resp => {});
   }
 
   newDeviceTransaction() {
-    axios.post("http://localhost:3001/device").then(resp => {
-      this.loadPendingTransactions();
-    });
+    axios.post("http://localhost:3001/device").then(resp => {});
   }
 
   clearTransactions() {
-    axios.post('http://localhost:3001/clear').then(resp => {
+    axios.post("http://localhost:3001/clear").then(resp => {
       this.loadPendingTransactions();
     });
   }
