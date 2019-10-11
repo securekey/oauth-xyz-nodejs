@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions */
-import React, { Component } from 'react';
-import './App.css';
-import * as axios from 'axios';
-import * as constants from './Constants.js';
-import TxComponent from './TxComponent';
+import React, { Component } from "react";
+import "./App.css";
+import * as axios from "axios";
+import * as constants from "./Constants.js";
+import TxComponent from "./TxComponent";
 
 class App extends Component {
   constructor(props) {
@@ -13,29 +13,23 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.loadPendingTransactions();
-  }
-
   async loadPendingTransactions() {
     let currentComponent = this;
-    let res = await axios.get('http://localhost:3001/pending');
-    console.log('pending transaction response is: ' + JSON.stringify(res.data));
+    let res = await axios.get("http://localhost:3001/pending");
+    console.log("pending transaction response is: " + JSON.stringify(res.data));
     currentComponent.setState({ transactions: res.data });
   }
 
   async newRedirectTransaction() {
-    await axios.post('http://localhost:3001/redirect');
-    this.loadPendingTransactions();
+    await axios.post("http://localhost:3001/redirect");
   }
 
   async newDeviceTransaction() {
-    await axios.post('http://localhost:3001/device');
-    this.loadPendingTransactions();
+    await axios.post("http://localhost:3001/device");
   }
 
   async clearTransactions() {
-    await axios.post('http://localhost:3001/clear');
+    await axios.post("http://localhost:3001/clear");
     this.loadPendingTransactions();
   }
 
