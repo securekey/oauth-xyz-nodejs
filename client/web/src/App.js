@@ -25,6 +25,7 @@ class App extends Component {
     });
   }
 
+<<<<<<< HEAD
   newRedirectTransaction() {}
 
   newDeviceTransaction() {}
@@ -60,6 +61,18 @@ class App extends Component {
             console.log("the respnse is" + resp);
           });
       });
+=======
+  newRedirectTransaction() {
+    axios.post('http://localhost:3001/redirect').then(resp => {
+      this.loadPendingTransactions();
+    });
+  }
+
+  newDeviceTransaction() {
+    axios.post('http://localhost:3001/device').then(resp => {
+      this.loadPendingTransactions();
+    });
+>>>>>>> c0fd6f16ff60addbd891f218f0b92288d34d1a09
   }
 
   render() {
@@ -68,14 +81,14 @@ class App extends Component {
         <p>OAuthXYZ Client</p>
         <button
           onClick={() => {
-            this.redirectButton();
+            this.newRedirectTransaction();
           }}
         >
-          New Transaction
+          New Redirect Transaction
         </button>
         <button
           onClick={() => {
-            this.deviceButton();
+            this.newDeviceTransaction();
           }}
         >
           New Device Transaction
@@ -88,7 +101,6 @@ class App extends Component {
           Get Transactions
         </button>
         <TxComponent txObject="testObj" />
-        //Access DB to pass txObject to the component
       </div>
     );
   }
