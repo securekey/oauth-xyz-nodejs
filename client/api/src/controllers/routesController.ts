@@ -211,7 +211,6 @@ class RoutesController {
               request: txRequest,
               response: JSON.parse(body)
             });
-            console.log(body);
             pending.entries.push(newEntry);
             pending.save();
             return res.location('http://localhost:5000').sendStatus(302);

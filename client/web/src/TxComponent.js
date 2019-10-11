@@ -36,7 +36,9 @@ class TxComponent extends Component {
         >
           Poll
         </button>
-        <TxEntryList transaction={this.state.transaction} />
+        <div className="entryList">
+          <TxEntryList transaction={this.state.transaction} />
+        </div>
       </div>
     );
   }
