@@ -44,6 +44,11 @@ class App extends Component {
           });
       });
   }
+  getTransactions() {
+    axios.get("http://localhost:3001/pending").then(function(response) {
+      console.log("pending transaction response is: " + response);
+    });
+  }
 
   render() {
     return (
@@ -62,6 +67,13 @@ class App extends Component {
           }}
         >
           New Device Transaction
+        </button>
+        <button
+          onClick={() => {
+            this.getTransactions();
+          }}
+        >
+          Get Transactions
         </button>
         <TxComponent txObject="testObj" />
         //Access DB to pass txObject to the component
