@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import AccessToken from './AccessToken';
 import UserCode from './UserCode';
+import './App.css';
 
 class TxEntry extends Component {
   render() {
-    if (!this.props.last) {
-      return null;
-    }
-
     const elements = [];
 
     if (this.props.entry.response.access_token) {
       elements.push(
         ...[
-          <dt className="col-sm-3">Token</dt>,
+          <dt className="col-sm-3">Access Token</dt>,
           <dd className="col-sm-9">
             <AccessToken token={this.props.entry.response.access_token} />
           </dd>
@@ -55,6 +52,15 @@ class TxEntry extends Component {
               {this.props.entry.response.interaction_url}
             </a>
           </dd>
+        ]
+      );
+    }
+
+    if (this.props.entry.response.message) {
+      elements.push(
+        ...[
+          <dt className="col-sm-3">Message</dt>,
+          <dd className="col-sm-9">{this.props.entry.response.message}</dd>
         ]
       );
     }

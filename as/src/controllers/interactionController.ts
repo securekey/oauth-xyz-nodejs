@@ -8,8 +8,6 @@ class InteractionController {
 
     if (req.cookies.pending_approval) {
       if (req.cookies.pending_approval.requireCode) {
-        console.log(req.cookies.pending_approval);
-
         return res.render('interact', {
           title: 'Hello there',
           message: 'User Code',

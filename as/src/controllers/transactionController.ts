@@ -228,7 +228,9 @@ class TransactionController {
           return res.status(202).json(new TransactionResponse(tx));
         case 'denied':
           await tx.save();
-          return res.json(new TransactionResponse(tx));
+          return res
+            .status(403)
+            .send({ message: 'User denied approval for this transaction' });
         case 'new':
           if (tx.interact && tx.interact.type) {
             switch (tx.interact.type) {
