@@ -1,11 +1,8 @@
 /* eslint-disable no-unused-expressions */
-import React, { Component } from "react";
-import { render } from "react-dom";
-import logo from "./logo.svg";
-import "./App.css";
-import * as axios from "axios";
-import * as constants from "./Constants.js";
-import queryString from "query-string";
+import React, { Component } from 'react';
+import TxEntryList from './TxEntryList';
+import './App.css';
+import * as axios from 'axios';
 
 class TxComponent extends Component {
   constructor(props) {
@@ -15,20 +12,31 @@ class TxComponent extends Component {
       transaction: props.txObject
     };
   }
-  polling() {
-    console.log("hi polling");
+  async poll() {
+    let currentComponent = this;
+    axios
+      .get(
+        'http://localhost:3001/poll/' +
+          encodeURIComponent(this.state.transaction._id)
+      )
+      .then(res => {
+        currentComponent.setState({
+          transaction: res.data
+        });
+      });
   }
   render() {
     return (
-      <div>
-        <p>Tx Component</p>
+      <div class="card">
         <button
+          className="button"
           onClick={() => {
-            this.polling();
+            this.poll();
           }}
         >
           Poll
         </button>
+        <TxEntryList transaction={this.state.transaction} />
       </div>
     );
   }

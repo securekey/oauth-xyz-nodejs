@@ -13,42 +13,36 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.loadPendingTransactions();
+  }
+
+  async loadPendingTransactions() {
+    let currentComponent = this;
+    let res = await axios.get('http://localhost:3001/pending');
+    console.log('pending transaction response is: ' + JSON.stringify(res.data));
+    currentComponent.setState({ transactions: res.data });
+  }
+
+  async newRedirectTransaction() {
+    await axios.post('http://localhost:3001/redirect');
     this.loadPendingTransactions();
   }
 
-  loadPendingTransactions() {
-    let currentComponent = this;
-    axios.get('http://localhost:3001/pending').then(function(response) {
-      console.log(
-        'pending transaction response is: ' + JSON.stringify(response.data)
-      );
-      currentComponent.setState({ transactions: response.data });
-    });
+  async newDeviceTransaction() {
+    await axios.post('http://localhost:3001/device');
+    this.loadPendingTransactions();
   }
 
-  newRedirectTransaction() {
-    axios.post('http://localhost:3001/redirect').then(resp => {
-      this.loadPendingTransactions();
-    });
-  }
-
-  newDeviceTransaction() {
-    axios.post('http://localhost:3001/device').then(resp => {
-      this.loadPendingTransactions();
-    });
-  }
-
-  clearTransactions() {
-    axios.post('http://localhost:3001/clear').then(resp => {
-      this.loadPendingTransactions();
-    });
+  async clearTransactions() {
+    await axios.post('http://localhost:3001/clear');
+    this.loadPendingTransactions();
   }
 
   render() {
     const pending = this.state.transactions
       .map(transaction => (
-        <TxComponent key={transaction.id} txObject={transaction} />
+        <TxComponent key={transaction._id} txObject={transaction} />
       ))
       .reverse(); // newest first
 

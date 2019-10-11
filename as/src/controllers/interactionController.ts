@@ -8,11 +8,13 @@ class InteractionController {
 
     if (req.cookies.pending_approval) {
       if (req.cookies.pending_approval.requireCode) {
+        console.log(req.cookies.pending_approval);
+
         return res.render('interact', {
-          userCode: true,
           title: 'Hello there',
           message: 'User Code',
-          para: 'Submit your User Code to continue'
+          para: 'Submit your User Code to continue',
+          user: true
         });
       } else {
         try {
@@ -73,6 +75,8 @@ class InteractionController {
         } else {
           tx.status = 'denied';
         }
+
+        tx.status = 'authorized';
 
         switch (tx.interact.type) {
           case 'device':

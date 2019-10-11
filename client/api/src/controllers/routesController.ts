@@ -19,7 +19,7 @@ class RoutesController {
         uri: 'http://localhost:5000'
       },
       interact: {
-        callback: 'http://localhost:5000/callback/' + callback_id,
+        callback: 'http://localhost:3001/callback/' + callback_id,
         type: 'redirect',
         nonce: nonce
       },
@@ -77,7 +77,7 @@ class RoutesController {
           entries: [newEntry],
           callback_id: callback_id,
           client_nonce: nonce,
-          server_nonce: body.server_nonce,
+          server_nonce: JSON.parse(body).server_nonce,
           owner: req.sessionID
         });
         pendingTx.save();
@@ -183,11 +183,12 @@ class RoutesController {
         return res.sendStatus(404);
       }
       let expectedHash = sha3_512(
-        [pending.client_nonce, pending.server_nonce, req.query.interact].join(
-          '\n'
-        )
+        [
+          pending.toObject().client_nonce,
+          pending.toObject().server_nonce,
+          req.query.interact
+        ].join('\n')
       );
-
       if (expectedHash === req.query.hash) {
         let lastEntry = pending.entries[pending.entries.length - 1];
         let lastResponse = lastEntry.response;
@@ -210,16 +211,17 @@ class RoutesController {
               request: txRequest,
               response: JSON.parse(body)
             });
+            console.log(body);
             pending.entries.push(newEntry);
             pending.save();
-
-            return res.status(302).location('/');
+            return res.location('http://localhost:5000').sendStatus(302);
           }
         );
       } else {
         return res.sendStatus(400);
       }
     } catch (err) {
+      console.log(err);
       return res.status(500).send(err);
     }
   }

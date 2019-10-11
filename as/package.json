@@ -4,7 +4,7 @@
   "description": "A reference implementation for the OAuth.xyz protocol",
   "scripts": {
     "build": "tsc",
-    "views": "cp -r ./src/views/ ./dist/views/",
+    "views": "rm -rf ./dist/views/ && cp -r ./src/views/ ./dist/views/",
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run views && npm run start"
   },

@@ -4,7 +4,7 @@ html
     body
         h1= message
         p= para
-        if userCode
+        if user
             form(action="/interact/device", method="post")
                 input(type="text", name="userCode")
                 input(type="submit", value="Submit")

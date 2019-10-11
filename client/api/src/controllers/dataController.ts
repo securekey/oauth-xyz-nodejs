@@ -10,7 +10,7 @@ class DataController {
 
   public getTransactionByIdAndOwner(id: string, owner: string) {
     return PendingTransactionModel.findOne({
-      id: id,
+      _id: id,
       owner: owner
     });
   }
@@ -19,7 +19,7 @@ class DataController {
     callback_id: string,
     owner: string
   ) {
-    return PendingTransactionModel.find({
+    return PendingTransactionModel.findOne({
       callback_id: callback_id,
       owner: owner
     });
