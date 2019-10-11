@@ -39,9 +39,26 @@ class App extends Component {
         <TxComponent key={transaction._id} txObject={transaction} />
       ))
       .reverse(); // newest first
+    var txObjectRedirect = this.txObject;
     return (
       <div>
         <p>OAuthXYZ Client</p>
+        <form action="/action_page.php">
+          Redirect Body{" "}
+          <input
+            type="text"
+            name="RedirectBody"
+            value={JSON.stringify(this.txObjectRedirect)}
+          />
+          <br />
+          Device Body <input type="text" name="DeviceBody" />
+          <br />
+        </form>
+        <input
+          type="text"
+          value="Test vale"
+          //  onChange={e => this.handleInputChange(e)}
+        />
         <button
           onClick={() => {
             this.newRedirectTransaction();
