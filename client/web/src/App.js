@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     const pending = this.state.transactions
       .map(transaction => (
-        <TxComponent key={transaction.id} txObject={transaction} />
+        <TxComponent txId={transaction.id} txObject={transaction} />
       ))
       .reverse(); // newest first
     return (

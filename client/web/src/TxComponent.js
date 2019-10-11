@@ -14,10 +14,11 @@ class TxComponent extends Component {
     this.state = {
       transaction: props.txObject
     };
-    this.forceUpdate();
   }
   polling() {
-    console.log("hi polling");
+    var id = JSON.stringify(this.props.txObject._id);
+    console.log("hi polling" + this.props.txObject._id);
+    axios.get("http://localhost:3001/" + this.props.txObject._id);
   }
   render() {
     return (
