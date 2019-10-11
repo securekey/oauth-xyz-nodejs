@@ -18,14 +18,14 @@ class App {
 
   constructor() {
     this.app = express();
-    this.config();
-    this.routes.routes(this.app);
 
     if (this.mongoURL == '' || !this.mongoURL) {
       console.error('FATAL: MongoDB URL is missing. Exiting...');
       process.exit(1);
     }
     this.mongoSetup();
+    this.config();
+    this.routes.routes(this.app);
   }
 
   private config(): void {
@@ -33,17 +33,20 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     var cors = require('cors');
-    var session = require('express-session');
+    /*const session = require('express-session');
+    const MongoStore = require('connect-mongo')(session);*/
 
-    this.app.use(
+    this.app.use(cors());
+    /*this.app.use(
       session({
         secret: 'secretValue',
-        resave: false,
         saveUninitialized: true,
-        cookie: { secure: false }
+        resave: false,
+        name: 'client-session.id',
+        cookie: { secure: false, maxAge: 60000000 },
+        store: new MongoStore({ mongooseConnection: mongoose.connection })
       })
-    );
-    this.app.use(cors());
+    );*/
   }
 
   private mongoSetup(): void {
