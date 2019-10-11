@@ -45,7 +45,6 @@ class App extends Component {
         <TxComponent key={transaction._id} txObject={transaction} />
       ))
       .reverse(); // newest first
-
     return (
       <div>
         <p>OAuthXYZ Client</p>
