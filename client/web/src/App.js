@@ -13,6 +13,20 @@ class App extends Component {
     };
   }
 
+  async componentDidMount() {
+    document.getElementById("RedirectBody").value = JSON.stringify(
+      constants.txObjectRedirect,
+      undefined,
+      4
+    );
+
+    document.getElementById("DeviceBody").value = JSON.stringify(
+      constants.txObjectDevice,
+      undefined,
+      4
+    );
+  }
+
   async loadPendingTransactions() {
     let currentComponent = this;
     let res = await axios.get("http://localhost:3001/pending");
@@ -51,20 +65,10 @@ class App extends Component {
         <p>OAuthXYZ Client</p>
         <form>
           Redirect Body
-          <textarea
-            cols="100"
-            id="RedirectBody"
-            rows="30"
-            value={JSON.stringify(constants.txObjectRedirect, undefined, 4)}
-          />
+          <textarea cols="100" id="RedirectBody" rows="30" />
           <br />
           Device Body
-          <textarea
-            cols="100"
-            id="DeviceBody"
-            rows="30"
-            value={JSON.stringify(constants.txObjectDevice, undefined, 4)}
-          />
+          <textarea cols="100" id="DeviceBody" rows="30" />
           <br />
         </form>
 
