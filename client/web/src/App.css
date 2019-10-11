@@ -30,7 +30,7 @@
 
 .button {
   float: right;
-  background-color: #113d12; /* Green */
+  background-color: #113d12;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -38,6 +38,22 @@
   text-align: center;
   text-decoration: none;
   font-size: 16px;
+}
+
+.txButton {
+  background-color: #627716;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.txButton:hover {
+  background-color: lightgrey;
+  color: black;
 }
 
 .entryList {
@@ -62,4 +78,13 @@ dd {
 
 .log {
   font-size: 24px;
+}
+.inline-div {
+  display: inline-block;
+}
+.inline-txtarea {
+  resize: none;
+  border: 2px solid red;
+  margin-left: 5vw;
+  width: 40vw;
 }

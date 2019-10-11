@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class UserCode extends Component {
   render() {
     if (this.props.userCode) {
-      return <p>{this.props.userCode}</p>;
+      return <>{this.props.userCode}</>;
     } else {
       return null;
     }
