@@ -31,3 +31,7 @@ The repo comes with a docker-compose configuration which can set up both the cli
 ## Note
 
 The OAuth XYZ spec is still a work in progress, and this implementation may not stay up to date as changes are made to the spec.
+
+## License
+
+Licensed under the [Apache License Version 2.0](LICENSE)
