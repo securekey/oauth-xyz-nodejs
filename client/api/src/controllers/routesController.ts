@@ -11,9 +11,6 @@ import {
 const asTransactionURL = 'http://as:3000/transaction';
 class RoutesController {
   public async postRedirect(req: Request, res: Response) {
-    //let callback_id = utils.generateRandomString(30);
-    //let nonce = utils.generateRandomString(20);
-
     let bodyTx = JSON.stringify(req.body.data.tx);
     let callback_url = req.body.data.tx.interact.callback;
     let pieces = callback_url.split('/');
@@ -51,7 +48,7 @@ class RoutesController {
     request.post(
       {
         url: asTransactionURL,
-        body: JSON.stringify(bodyTx),
+        body: bodyTx,
         headers: { 'Content-Type': 'application/json' }
       },
       (err, resp, body) => {
