@@ -24,6 +24,10 @@ The repo comes with a docker-compose configuration which can set up both the cli
 - Make sure you have docker and docker-compose installed
 - Run `docker-compose build && docker-compose up` to start the network
 
+## Known Limitations/Bugs
+
+- Even though there is code on the database side for it, was unable to get `express-sessions` working on localhost dev server. As a result, if this implementation is hosted online, everyone can view everyone's transactions. The solution to this is simple, uncomment the session code in `app.ts` and get it to work.
+
 ## Note
 
 The OAuth XYZ spec is still a work in progress, and this implementation may not stay up to date as changes are made to the spec.
