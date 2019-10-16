@@ -1,5 +1,4 @@
-import { Handle } from "./handleModel";
-import { TransactionModel } from "./transactionModel";
+import { Handle } from './handleModel';
 
 export class TransactionResponse {
   // Next Step: Redirect
@@ -18,7 +17,7 @@ export class TransactionResponse {
 
   // Handles
   handle: Handle; // Transaction Handle
-  client_handle: Handle;
+  display_handle: Handle;
   user_handle: Handle;
   resource_handle: Handle;
   key_handle: Handle;
@@ -30,7 +29,7 @@ export class TransactionResponse {
     this.user_code = Obj.interact.user_code;
     this.access_token = Obj.access_token;
     this.handle = Obj.handles.transaction;
-    this.client_handle = Obj.handles.client;
+    this.display_handle = Obj.handles.display;
     this.user_handle = Obj.handles.user;
     this.resource_handle = Obj.handles.resource;
     this.key_handle = Obj.handles.key;

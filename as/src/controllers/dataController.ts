@@ -1,5 +1,5 @@
 import { TransactionModel } from '../models/transactionModel';
-import { ClientModel } from '../models/clientModel';
+import { DisplayModel } from '../models/displayModel';
 import { UserRequestModel } from '../models/userModel';
 import { KeyModel } from '../models/keyModel';
 import { ResourcesModel } from '../models/resourcesModel';
@@ -28,9 +28,9 @@ class DataController {
     });
   }
 
-  // Client
-  public getClientByHandle(handle: string) {
-    return ClientModel.findOne({
+  // Display
+  public getDisplayByHandle(handle: string) {
+    return DisplayModel.findOne({
       handle: handle
     });
   }

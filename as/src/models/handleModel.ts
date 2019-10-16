@@ -1,31 +1,31 @@
-import * as mongoose from "mongoose";
-import utils from "../utils/utils"
+import * as mongoose from 'mongoose';
+import utils from '../utils/utils';
 
 enum Type {
-  BEARER = "bearer",
-  SHA3 = "sha3"
+  BEARER = 'bearer',
+  SHA3 = 'sha3'
 }
 
 export const HandleSchema = new mongoose.Schema({
   value: String,
   type: {
     type: String,
-    enum: ["bearer", "sha3"]
+    enum: ['bearer', 'sha3']
   }
 });
 
-const HandleModel = mongoose.model("Handle", HandleSchema);
+const HandleModel = mongoose.model('Handle', HandleSchema);
 
 export const HandleSetSchema = new mongoose.Schema({
   transaction: HandleSchema,
-  client: HandleSchema,
+  display: HandleSchema,
   user: HandleSchema,
   resource: HandleSchema,
   interact: HandleSchema,
   key: HandleSchema
 });
 
-export const HandleSet = mongoose.model("HandleSet", HandleSetSchema);
+export const HandleSet = mongoose.model('HandleSet', HandleSetSchema);
 
 export class Handle {
   value: String;

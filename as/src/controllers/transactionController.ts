@@ -6,7 +6,7 @@ import { Handle, HandleSet } from '../models/handleModel';
 import utils from '../utils/utils';
 import dataController from './dataController';
 import { sha3_512 } from 'js-sha3';
-import { ClientModel } from '../models/clientModel';
+import { DisplayModel } from '../models/displayModel';
 import { UserRequestModel } from '../models/userModel';
 import { KeyModel } from '../models/keyModel';
 import { ResourcesModel } from '../models/resourcesModel';
@@ -36,34 +36,34 @@ class TransactionController {
       // New TX Request coming in
       tx = new TransactionModel();
 
-      // If client request is full object (not handle)
-      if (txReq.isClientRequestFull()) {
-        tx.client = txReq.getClientDoc();
+      // If display request is full object (not handle)
+      if (txReq.isDisplayRequestFull()) {
+        tx.display = txReq.getDisplayDoc();
         let h = new Handle();
-        let c = new ClientModel({
+        let c = new DisplayModel({
           handle: h.value,
-          name: tx.client.name,
-          uri: tx.client.uri,
-          logo_uri: tx.client.logo_uri
+          name: tx.display.name,
+          uri: tx.display.uri,
+          logo_uri: tx.display.logo_uri
         });
         await c.save();
-        tx.client = c;
+        tx.display = c;
         if (tx.handles) {
-          tx.handles.client = h;
+          tx.handles.display = h;
         } else {
           tx.handles = new HandleSet({
-            client: h
+            display: h
           });
         }
-      } else if (txReq.client) {
+      } else if (txReq.display) {
         try {
-          var client = await dataController.getClientByHandle(<string>(
-            txReq.client
+          var display = await dataController.getDisplayByHandle(<string>(
+            txReq.display
           ));
-          if (!client) {
-            return res.status(400).send({ message: 'Invalid client handle' });
+          if (!display) {
+            return res.status(400).send({ message: 'Invalid display handle' });
           } else {
-            tx.client = client;
+            tx.display = display;
           }
         } catch (err) {
           return res.status(500).send(err);
@@ -194,9 +194,9 @@ class TransactionController {
           transaction: new Handle().toSchema()
         });
       }
-      if (tx.client && !tx.handles.client) {
-        tx.handles.client = new Handle();
-        tx.handles.client.value = tx.client.handle;
+      if (tx.display && !tx.handles.display) {
+        tx.handles.display = new Handle();
+        tx.handles.display.value = tx.display.handle;
       }
       if (tx.user && !tx.handles.user) {
         tx.handles.user = new Handle();

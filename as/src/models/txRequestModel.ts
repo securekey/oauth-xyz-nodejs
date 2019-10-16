@@ -1,5 +1,5 @@
 import { KeyRequest } from './keyModel';
-import { ClientRequest } from './clientModel';
+import { DisplayRequest } from './displayModel';
 import { InteractRequest } from './interactModel';
 import { UserRequest } from './userModel';
 import { ResourceRequest } from './resourcesModel';
@@ -8,7 +8,7 @@ export class TransactionRequest {
   handle: string;
 
   interact_handle: string;
-  client: ClientRequest | string;
+  display: DisplayRequest | string;
   interact: InteractRequest | string;
   user: UserRequest | string;
   resources: (ResourceRequest | string)[];
@@ -21,11 +21,11 @@ export class TransactionRequest {
     if (Obj.interact_handle) {
       this.interact_handle = Obj.interact_handle;
     }
-    if (Obj.client) {
-      if (typeof Obj.client === 'string') {
-        this.client = Obj.client;
+    if (Obj.display) {
+      if (typeof Obj.display === 'string') {
+        this.display = Obj.display;
       } else {
-        this.client = new ClientRequest(Obj.client);
+        this.display = new DisplayRequest(Obj.display);
       }
     }
     if (Obj.interact) {
@@ -61,13 +61,13 @@ export class TransactionRequest {
     }
   }
 
-  public isClientRequestFull(): boolean {
-    return !(typeof this.client === 'string');
+  public isDisplayRequestFull(): boolean {
+    return !(typeof this.display === 'string');
   }
 
-  public getClientDoc() {
-    if (this.isClientRequestFull()) {
-      return (<ClientRequest>this.client).toSchema();
+  public getDisplayDoc() {
+    if (this.isDisplayRequestFull()) {
+      return (<DisplayRequest>this.display).toSchema();
     }
   }
 

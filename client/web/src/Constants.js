@@ -1,5 +1,5 @@
 export const txObjectRedirect = {
-  client: {
+  display: {
     name: 'My Client Display Name',
     uri: 'https://example.net/client'
   },
@@ -40,7 +40,7 @@ export const txObjectRedirect = {
 };
 
 export const txObjectDevice = {
-  client: {
+  display: {
     name: 'My Client Display Name',
     uri: 'https://example.net/client'
   },
