@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import { TransactionModel } from '../models/transactionModel';
 import { DisplayModel } from '../models/displayModel';
 import { UserRequestModel } from '../models/userModel';

@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';

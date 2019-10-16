@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import * as mongoose from 'mongoose';
 
 export const KeySchema = new mongoose.Schema({

@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import React, { Component } from 'react';
 import TxEntry from './TxEntry';
 import './App.css';

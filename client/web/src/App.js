@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import './App.css';

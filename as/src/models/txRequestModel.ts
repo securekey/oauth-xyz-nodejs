@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import { KeyRequest } from './keyModel';
 import { DisplayRequest } from './displayModel';
 import { InteractRequest } from './interactModel';

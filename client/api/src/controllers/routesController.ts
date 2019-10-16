@@ -1,6 +1,9 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import { Request, Response } from 'express';
 import dataController from './dataController';
-import utils from '../utils/utils';
 import { sha3_512 } from 'js-sha3';
 import * as request from 'request';
 import {

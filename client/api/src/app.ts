@@ -1,3 +1,7 @@
+/*
+Copyright SecureKey Technologies Inc. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+*/
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
@@ -33,6 +37,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     var cors = require('cors');
+    // FIXME: sessions
     /*const session = require('express-session');
     const MongoStore = require('connect-mongo')(session);*/
 
