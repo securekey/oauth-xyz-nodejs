@@ -106,9 +106,6 @@ class RoutesController {
       if (!pending) {
         return res.sendStatus(404);
       }
-      console.log('c: ' + pending.toObject().client_nonce);
-      console.log('s: ' + pending.toObject().server_nonce);
-      console.log('i: ' + req.query.interact);
       let expectedHash = sha3_512_encode(
         [
           pending.toObject().client_nonce,
@@ -131,7 +128,6 @@ class RoutesController {
             headers: { 'Content-Type': 'application/json' }
           },
           (err, resp, body) => {
-            console.log('>> ' + body);
             if (err) {
               return res.status(500).send(err);
             }
