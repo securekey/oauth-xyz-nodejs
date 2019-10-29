@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 import { Request, Response } from 'express';
 import dataController from './dataController';
 import { sha3_512 } from 'js-sha3';
+import base64url from 'base64url';
 import * as request from 'request';
 import {
   PendingTransactionModel,
@@ -12,13 +13,18 @@ import {
 } from '../models/pendingTransaction';
 
 const asTransactionURL = 'http://as:3000/transaction';
+
+const sha3_512_encode = function(toHash: string) {
+  return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
+}
+
 class RoutesController {
   public async postRedirect(req: Request, res: Response) {
     let bodyTx = JSON.stringify(req.body.data.tx);
-    let callback_url = req.body.data.tx.interact.callback;
+    let callback_url = req.body.data.tx.interact.callback.uri;
     let pieces = callback_url.split('/');
     let callback_id = pieces[pieces.length - 1];
-    let nonce = req.body.data.tx.interact.nonce;
+    let nonce = req.body.data.tx.interact.callback.nonce;
     request.post(
       {
         url: asTransactionURL,
@@ -100,7 +106,10 @@ class RoutesController {
       if (!pending) {
         return res.sendStatus(404);
       }
-      let expectedHash = sha3_512(
+      console.log('c: ' + pending.toObject().client_nonce);
+      console.log('s: ' + pending.toObject().server_nonce);
+      console.log('i: ' + req.query.interact);
+      let expectedHash = sha3_512_encode(
         [
           pending.toObject().client_nonce,
           pending.toObject().server_nonce,
@@ -112,7 +121,7 @@ class RoutesController {
         let lastResponse = lastEntry.response;
         let txRequest = {
           handle: lastResponse.handle.value,
-          interact_handle: sha3_512(req.query.interact)
+          interact_handle: sha3_512_encode(req.query.interact)
         };
 
         request.post(
@@ -122,6 +131,7 @@ class RoutesController {
             headers: { 'Content-Type': 'application/json' }
           },
           (err, resp, body) => {
+            console.log('>> ' + body);
             if (err) {
               return res.status(500).send(err);
             }
@@ -135,7 +145,7 @@ class RoutesController {
           }
         );
       } else {
-        return res.sendStatus(400);
+        return res.status(400).send('Bad hash, expected ' + expectedHash + ' got ' + req.query.hash);
       }
     } catch (err) {
       console.log(err);

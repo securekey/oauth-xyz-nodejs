@@ -6,6 +6,11 @@ import { Request, Response } from 'express';
 import dataController from './dataController';
 import utils from '../utils/utils';
 import { sha3_512 } from 'js-sha3';
+
+const sha3_512_encode = function(toHash: string) {
+  return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
+}
+
 class InteractionController {
   public async getInteract(req: Request, res: Response) {
     var tx: any;
@@ -88,7 +93,7 @@ class InteractionController {
 
             let client_nonce = tx.interact.client_nonce;
             let server_nonce = tx.interact.server_nonce;
-            let hash = sha3_512(
+            let hash = sha3_512_encode(
               [client_nonce, server_nonce, interact_handle].join('\n')
             );
             let callback = tx.interact.callback;

@@ -15,6 +15,10 @@ import { UserRequestModel } from '../models/userModel';
 import { KeyModel } from '../models/keyModel';
 import { ResourcesModel } from '../models/resourcesModel';
 
+const sha3_512_encode = function(toHash: string) {
+  return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
+}
+
 class TransactionController {
   public async postTransaction(req: Request, res: Response) {
     var txReq = new TransactionRequest(req.body);
@@ -184,7 +188,7 @@ class TransactionController {
           return res.status(400).send('Missing interaction handle');
         }
 
-        if (txReq.interact_handle !== sha3_512(tx.interact.interact_handle)) {
+        if (txReq.interact_handle !== sha3_512_encode(tx.interact.interact_handle)) {
           return res.status(400).send('Invalid interaction handle');
         }
       }
