@@ -20,7 +20,8 @@ export const KeySchema = new mongoose.Schema({
     }
   },
   cert: String,
-  did: String
+  did: String,
+  proof: String
 });
 
 export const KeyModel = mongoose.model('Key', KeySchema);
@@ -30,6 +31,7 @@ export class KeyRequest {
   jwks: any;
   cert: String;
   did: String;
+  proof: String;
 
   constructor(Obj: any) {
     this.jwks = Obj.jwks;
@@ -37,6 +39,7 @@ export class KeyRequest {
 
   public toSchema() {
     var key = new KeyModel({
+      proof: this.proof,
       jwks: this.jwks,
       cert: this.cert,
       did: this.did

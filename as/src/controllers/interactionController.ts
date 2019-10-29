@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 import { Request, Response } from 'express';
 import dataController from './dataController';
 import utils from '../utils/utils';
+import base64url from 'base64url';
 import { sha3_512 } from 'js-sha3';
 
 const sha3_512_encode = function(toHash: string) {
@@ -83,28 +84,24 @@ class InteractionController {
           tx.status = 'denied';
         }
 
-        switch (tx.interact.type) {
-          case 'device':
-            await tx.save();
-            return res.send('Go back to your device to continue');
-          case 'redirect':
-            let interact_handle = utils.generateRandomString(30);
-            tx.interact.interact_handle = interact_handle;
+        if (tx.interact.callback) {
+          let interact_handle = utils.generateRandomString(30);
+          tx.interact.interact_handle = interact_handle;
 
-            let client_nonce = tx.interact.client_nonce;
-            let server_nonce = tx.interact.server_nonce;
-            let hash = sha3_512_encode(
-              [client_nonce, server_nonce, interact_handle].join('\n')
-            );
-            let callback = tx.interact.callback;
-            let callbackUri =
-              callback + '?hash=' + hash + '&interact=' + interact_handle;
+          let client_nonce = tx.interact.client_nonce;
+          let server_nonce = tx.interact.server_nonce;
+          let hash = sha3_512_encode(
+            [client_nonce, server_nonce, interact_handle].join('\n')
+          );
+          let callback = tx.interact.callback;
+          let callbackUri =
+            callback + '?hash=' + hash + '&interact=' + interact_handle;
 
-            await tx.save();
-            return res.redirect(callbackUri);
-          default:
-            await tx.save();
-            return res.send('Something went wrong...');
+          await tx.save();
+          return res.redirect(callbackUri);
+        } else {
+          await tx.save();
+          return res.send('Go back to your device to continue');
         }
       } else {
         return res.status(404);
