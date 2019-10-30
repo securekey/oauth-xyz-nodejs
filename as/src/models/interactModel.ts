@@ -4,38 +4,40 @@ SPDX-License-Identifier: Apache-2.0
 */
 import * as mongoose from 'mongoose';
 export const InteractSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    enum: ['redirect', 'device']
-  },
-  url: String,
+  interaction_url: String,
   interact_id: String,
   callback: String,
   client_nonce: String,
   server_nonce: String,
   interact_handle: String,
   user_code: String,
-  user_code_url: String
+  user_code_url: String,
+  can_redirect: Boolean,
+  can_user_code: Boolean
 });
 
 export const InteractModel = mongoose.model('Interact', InteractSchema);
 
 export class InteractRequest {
-  type: String;
-  callback: String;
-  nonce: String;
+  callback: {
+    uri: String,
+    nonce: String
+  };
+  redirect: Boolean;
+  user_code: Boolean;
 
   constructor(Obj: any) {
-    this.type = Obj.type;
     this.callback = Obj.callback;
-    this.nonce = Obj.nonce;
+    this.redirect = Obj.redirect;
+    this.user_code = Obj.user_code;
   }
 
   public toSchema() {
     var interact = new InteractModel({
-      callback: this.callback,
-      type: this.type,
-      client_nonce: this.nonce
+      callback: this.callback ? this.callback.uri : null,
+      client_nonce: this.callback ? this.callback.nonce : null,
+      can_redirect: this.redirect,
+      can_user_code: this.user_code
     });
 
     return interact;

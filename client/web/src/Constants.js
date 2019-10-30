@@ -8,9 +8,11 @@ export const txObjectRedirect = {
     uri: 'https://example.net/client'
   },
   interact: {
-    type: 'redirect',
-    callback: 'http://localhost:3001/callback/ADD_SOMETHING_HERE',
-    nonce: 'MAYBE_CHANGE_ME_TOO'
+    redirect: true,
+    callback: {
+      uri: 'http://localhost:3001/callback/ADD_SOMETHING_HERE',
+      nonce: 'MAYBE_CHANGE_ME_TOO'
+    }
   },
   user: {
     assertion:
@@ -27,7 +29,7 @@ export const txObjectRedirect = {
       data: ['metadata']
     }
   ],
-  key: {
+  keys: {
     jwks: {
       keys: [
         {
@@ -49,7 +51,7 @@ export const txObjectDevice = {
     uri: 'https://example.net/client'
   },
   interact: {
-    type: 'device'
+    user_code: true
   },
   user: {
     assertion:
@@ -66,7 +68,7 @@ export const txObjectDevice = {
       data: ['metadata']
     }
   ],
-  key: {
+  keys: {
     jwks: {
       keys: [
         {

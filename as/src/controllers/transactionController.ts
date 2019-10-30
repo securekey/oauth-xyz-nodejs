@@ -9,11 +9,16 @@ import { TransactionModel } from '../models/transactionModel';
 import { Handle, HandleSet } from '../models/handleModel';
 import utils from '../utils/utils';
 import dataController from './dataController';
+import base64url from 'base64url';
 import { sha3_512 } from 'js-sha3';
 import { DisplayModel } from '../models/displayModel';
 import { UserRequestModel } from '../models/userModel';
 import { KeyModel } from '../models/keyModel';
 import { ResourcesModel } from '../models/resourcesModel';
+
+const sha3_512_encode = function(toHash: string) {
+  return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
+}
 
 class TransactionController {
   public async postTransaction(req: Request, res: Response) {
@@ -73,12 +78,11 @@ class TransactionController {
           return res.status(500).send(err);
         }
       }
-
       // If interact request is full object
       if (txReq.isInteractRequestFull()) {
         tx.interact = txReq.getInteractDoc();
       }
-
+      
       if (txReq.isUserRequestFull()) {
         tx.user = txReq.getUserDoc();
         let h = new Handle();
@@ -108,7 +112,7 @@ class TransactionController {
           return res.status(500).send(err);
         }
       }
-
+      
       if (txReq.resources) {
         for (var resource of txReq.resources) {
           if (typeof resource === 'string') {
@@ -143,18 +147,18 @@ class TransactionController {
           });
         }
       }
-
+      
       if (txReq.isKeyRequestFull()) {
-        tx.key = txReq.getKeyDoc();
+        tx.keys = txReq.getKeyDoc();
         let h = new Handle();
         let k = new KeyModel({
           handle: h.value,
-          jwks: tx.key.jwks,
-          cert: tx.key.cert,
-          did: tx.key.did
+          jwks: tx.keys.jwks,
+          cert: tx.keys.cert,
+          did: tx.keys.did
         });
         await k.save();
-        tx.key = k;
+        tx.keys = k;
         if (tx.handles) {
           tx.handles.key = h;
         } else {
@@ -162,20 +166,20 @@ class TransactionController {
             key: h
           });
         }
-      } else if (txReq.key) {
+      } else if (txReq.keys) {
         try {
-          var key = await dataController.getKeyByHandle(<string>txReq.key);
-          if (!key) {
+          var keys = await dataController.getKeyByHandle(<string>txReq.keys);
+          if (!keys) {
             return res.status(400).send({ message: 'Invalid key handle' });
           } else {
-            tx.key = key;
+            tx.keys = keys;
           }
         } catch (err) {
           return res.status(500).send(err);
         }
       }
     }
-
+    
     if (tx) {
       // If tx in database has an interact handle
       if (tx.interact.interact_handle) {
@@ -184,7 +188,7 @@ class TransactionController {
           return res.status(400).send('Missing interaction handle');
         }
 
-        if (txReq.interact_handle !== sha3_512(tx.interact.interact_handle)) {
+        if (txReq.interact_handle !== sha3_512_encode(tx.interact.interact_handle)) {
           return res.status(400).send('Invalid interaction handle');
         }
       }
@@ -235,33 +239,33 @@ class TransactionController {
             .status(403)
             .send({ message: 'User denied approval for this transaction' });
         case 'new':
-          if (tx.interact && tx.interact.type) {
-            switch (tx.interact.type) {
-              case 'redirect':
-                let interact_id = utils.generateRandomString(10);
-                let server_nonce = utils.generateRandomString(20);
-                let interaction_url =
-                  'http://localhost:3000/interact/' + interact_id;
+          if (tx.interact) {
+            if (tx.interact.can_redirect) {
+              let interact_id = utils.generateRandomString(10);
+              let interaction_url =
+                'http://localhost:3000/interact/' + interact_id;
 
-                tx.interact.url = interaction_url;
-                tx.interact.interact_id = interact_id;
-                tx.interact.server_nonce = server_nonce;
+              tx.interact.url = interaction_url;
+              tx.interact.interact_id = interact_id;
 
-                tx.status = 'waiting';
-
-                break;
-              case 'device':
-                let user_code = utils.generateUserCode(8);
-                let user_code_url = 'http://localhost:3000/interact/device';
-
-                tx.interact.user_code = user_code;
-                tx.interact.user_code_url = user_code_url;
-
-                tx.status = 'waiting';
-                break;
-              default:
-                return res.status(400);
             }
+            
+            if (tx.interact.callback) {
+              let server_nonce = utils.generateRandomString(20);
+              tx.interact.server_nonce = server_nonce;
+            }
+            
+            if (tx.interact.can_user_code) {
+              let user_code = utils.generateUserCode(8);
+              let user_code_url = 'http://localhost:3000/interact/device';
+
+              tx.interact.user_code = user_code;
+              tx.interact.user_code_url = user_code_url;
+
+            }
+            
+            tx.status = 'waiting';
+            
           }
           break;
         default:
@@ -270,6 +274,7 @@ class TransactionController {
 
       await tx.save();
       let txResp = new TransactionResponse(tx);
+      
       return res.json(txResp);
     }
   }

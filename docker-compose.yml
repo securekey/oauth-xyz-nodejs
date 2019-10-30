@@ -10,11 +10,11 @@ services:
     build: ./as
     ports:
       - '3000:3000'
-    restart: unless-stopped
     environment:
       - MONGO_URL=mongodb://mongo-as:27017/xyzdb?authSource=admin
       - MONGO_USERNAME=docker
       - MONGO_PASSWORD=docker
+      - DEBUG
     links:
       - mongo-as
     depends_on:
@@ -23,42 +23,36 @@ services:
     build: ./client/api
     ports:
       - '3001:3001'
-    restart: unless-stopped
     environment:
-      - MONGO_URL=mongodb://mongo-client:27018/xyzdb?authSource=admin
+      - MONGO_URL=mongodb://mongo-client:27017/xyzdb?authSource=admin
       - MONGO_USERNAME=docker
       - MONGO_PASSWORD=docker
+      - DEBUG
     links:
       - mongo-client
     depends_on:
       - mongo-client
   mongo-as:
     image: mongo:latest
-    restart: always
     volumes:
       - ./mongo/as/data:/mongo/data
     environment:
       - MONGO_INITDB_ROOT_USERNAME=docker
       - MONGO_INITDB_ROOT_PASSWORD=docker
-    ports:
-      - '27017:27017'
   mongo-client:
     image: mongo:latest
-    command: mongod --port 27018
-    restart: always
     volumes:
       - ./mongo/client/data:/mongo/data
     environment:
       - MONGO_INITDB_ROOT_USERNAME=docker
       - MONGO_INITDB_ROOT_PASSWORD=docker
-    ports:
-      - '27018:27018'
   web:
     build: ./client/web
     ports:
       - '5000:5000'
-    restart: unless-stopped
     links:
       - client-api
     depends_on:
       - client-api
+    environment:
+      - DEBUG

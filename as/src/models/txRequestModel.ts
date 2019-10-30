@@ -16,7 +16,7 @@ export class TransactionRequest {
   interact: InteractRequest | string;
   user: UserRequest | string;
   resources: (ResourceRequest | string)[];
-  key: KeyRequest | string;
+  keys: KeyRequest | string;
 
   constructor(Obj: any) {
     if (Obj.handle) {
@@ -56,11 +56,11 @@ export class TransactionRequest {
         }
       });
     }
-    if (Obj.key) {
-      if (typeof Obj.key === 'string') {
-        this.key = Obj.key;
+    if (Obj.keys) {
+      if (typeof Obj.keys === 'string') {
+        this.keys = Obj.keys;
       } else {
-        this.key = new KeyRequest(Obj.key);
+        this.keys = new KeyRequest(Obj.keys);
       }
     }
   }
@@ -96,12 +96,12 @@ export class TransactionRequest {
   }
 
   public isKeyRequestFull(): boolean {
-    return !(typeof this.key === 'string');
+    return !(typeof this.keys === 'string');
   }
 
   public getKeyDoc() {
     if (this.isKeyRequestFull()) {
-      return (<KeyRequest>this.key).toSchema();
+      return (<KeyRequest>this.keys).toSchema();
     }
   }
 }
