@@ -29,7 +29,7 @@ export const txObjectRedirect = {
       data: ['metadata']
     }
   ],
-  key: {
+  keys: {
     jwks: {
       keys: [
         {
@@ -68,7 +68,7 @@ export const txObjectDevice = {
       data: ['metadata']
     }
   ],
-  key: {
+  keys: {
     jwks: {
       keys: [
         {

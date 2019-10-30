@@ -22,6 +22,6 @@
     "mongoose": "^5.7.4",
     "nodemon": "^1.19.3",
     "request": "^2.88.0",
-	"base64url": "^3.0.1"
+    "base64url": "^3.0.1"
   }
 }
