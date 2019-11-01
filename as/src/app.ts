@@ -33,8 +33,8 @@ class App {
   }
 
   private config(): void {
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(bodyParser.json({ verify: this.rawBodySaver }));
+    this.app.use(bodyParser.urlencoded({ verify: this.rawBodySaver, extended: false }));
     this.app.set('views', __dirname + '/views');
     this.app.set('view engine', 'pug');
 
@@ -48,6 +48,12 @@ class App {
   private mongoSetup(): void {
     //    mongoose.Promise = global.Promise;
     mongoose.connect(this.mongoURL, this.options);
+  }
+
+  private rawBodySaver(req, res, buf, encoding): void {
+    if (buf && buf.length) {
+      req.rawBody = buf.toString(encoding || 'utf8');
+    }
   }
 }
 
