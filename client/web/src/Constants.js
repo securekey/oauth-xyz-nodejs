@@ -26,7 +26,7 @@ export const txObjectRedirect = {
         'https://server.example.net/',
         'https://resource.local/other'
       ],
-      data: ['metadata']
+      datatypes: ['metadata']
     }
   ],
   keys: {
@@ -65,7 +65,7 @@ export const txObjectDevice = {
         'https://server.example.net/',
         'https://resource.local/other'
       ],
-      data: ['metadata']
+      datatypes: ['metadata']
     }
   ],
   keys: {

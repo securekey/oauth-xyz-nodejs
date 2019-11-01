@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 export const ResourceSchema = new mongoose.Schema({
   actions: [String],
   locations: [String],
-  data: [String]
+  datatypes: [String]
 });
 
 export const ResourcesSchema = new mongoose.Schema({
@@ -21,19 +21,19 @@ export const ResourcesModel = mongoose.model('Resources', ResourcesSchema);
 export class ResourceRequest {
   actions: String[];
   locations: String[];
-  data: String[];
+  datatypes: String[];
 
   constructor(Obj: any) {
     this.actions = Obj.actions;
     this.locations = Obj.locations;
-    this.data = Obj.data;
+    this.datatypes = Obj.datatypes;
   }
 
   public toSchema() {
     var resource = new ResourceModel({
       actions: this.actions,
       locations: this.locations,
-      data: this.data
+      datatypes: this.datatypes
     });
 
     return resource;
