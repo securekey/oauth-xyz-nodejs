@@ -11,6 +11,7 @@ import {
   PendingTransactionModel,
   EntryModel
 } from '../models/pendingTransaction';
+import * as jose from 'node-jose';
 
 const asTransactionURL = 'http://as:3000/transaction';
 
@@ -25,11 +26,38 @@ class RoutesController {
     let pieces = callback_url.split('/');
     let callback_id = pieces[pieces.length - 1];
     let nonce = req.body.data.tx.interact.callback.nonce;
+    let headers = { 'Content-Type': 'application/json' };
+    if (req.body.data.tx.keys) {
+      if (req.body.data.tx.keys.proof == 'jwsd') {
+        
+        var jwsdHeader = await jose.JWK.asKeyStore([req.body.data.key])
+        // parse the key
+        .then(keystore => {
+          const key = keystore.get(req.body.data.key.kid);
+          console.log(key);
+          return jose.JWS.createSign({format: 'compact', fields: { b64: false }}, key)
+            .update(bodyTx)
+            .final()
+        })
+        .then(jws => {
+          // split the JWS to grab the header and signature
+          console.log(jws);
+          const parts = jws.split('.');
+          parts[1] = '';
+          return parts.join('.');
+        });
+        
+        headers['Detached-JWS'] = jwsdHeader;
+      }
+    }
+    
+    console.log(headers);
+    
     request.post(
       {
         url: asTransactionURL,
         body: bodyTx,
-        headers: { 'Content-Type': 'application/json' }
+        headers: headers
       },
       (err, resp, body) => {
         if (err) {
@@ -54,11 +82,38 @@ class RoutesController {
   public async postDevice(req: Request, res: Response) {
     let bodyTx = JSON.stringify(req.body.data.tx);
 
+    let headers = { 'Content-Type': 'application/json' };
+    if (req.body.data.tx.keys) {
+      if (req.body.data.tx.keys.proof == 'jwsd') {
+        
+        var jwsdHeader = await jose.JWK.asKeyStore([req.body.data.key])
+        // parse the key
+        .then(keystore => {
+          const key = keystore.get(req.body.data.key.kid);
+          console.log(key);
+          return jose.JWS.createSign({format: 'compact', fields: { b64: false }}, key)
+            .update(bodyTx)
+            .final()
+        })
+        .then(jws => {
+          // split the JWS to grab the header and signature
+          console.log(jws);
+          const parts = jws.split('.');
+          parts[1] = '';
+          return parts.join('.');
+        });
+        
+        headers['Detached-JWS'] = jwsdHeader;
+      }
+    }
+    
+    console.log(headers);
+
     request.post(
       {
         url: asTransactionURL,
         body: bodyTx,
-        headers: { 'Content-Type': 'application/json' }
+        headers: headers
       },
       (err, resp, body) => {
         if (err) {

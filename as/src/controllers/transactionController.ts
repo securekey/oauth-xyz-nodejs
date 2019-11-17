@@ -15,6 +15,7 @@ import { DisplayModel } from '../models/displayModel';
 import { UserRequestModel } from '../models/userModel';
 import { KeyModel } from '../models/keyModel';
 import { ResourcesModel } from '../models/resourcesModel';
+import * as jose from 'node-jose';
 
 const sha3_512_encode = function(toHash: string) {
   return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
@@ -155,7 +156,8 @@ class TransactionController {
           handle: h.value,
           jwks: tx.keys.jwks,
           cert: tx.keys.cert,
-          did: tx.keys.did
+          did: tx.keys.did,
+          proof: tx.keys.proof
         });
         await k.save();
         tx.keys = k;
@@ -180,7 +182,39 @@ class TransactionController {
       }
     }
     
+    console.log(tx);
+    
     if (tx) {
+      
+      // if the tx has a key proof, validate it
+      if (tx.keys) {
+        if (tx.keys.proof == 'jwsd') {
+          // get the header
+          const jwsdHeader = req.header('Detached-JWS');
+          if (!jwsdHeader) {
+            return res.status(400).send('Missing detached JWS header');
+          }
+          console.log(jwsdHeader);
+          console.log(tx.keys.jwks);
+          await jose.JWK.asKeyStore(tx.keys.jwks)
+          .then(keystore => {
+            console.log(keystore.all());
+            const parts = jwsdHeader.split('.');
+            parts[1] = base64url.encode(req['rawBody']);
+            
+            const input = parts.join('.');
+            console.log(input);
+            return jose.JWS.createVerify(keystore)
+              .verify(input);
+          })
+          .then(result => {
+            console.log('Verified detached JWS header');
+          });
+          
+        }
+      }
+      
+      
       // If tx in database has an interact handle
       if (tx.interact.interact_handle) {
         // if txReq.interact_handle is null or undefined

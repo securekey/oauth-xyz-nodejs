@@ -29,6 +29,12 @@ class App extends Component {
       undefined,
       4
     );
+    
+    document.getElementById('ClientJwk').value = JSON.stringify(
+      constants.clientJwk,
+      undefined,
+      4
+    );
   }
 
   async loadPendingTransactions() {
@@ -41,7 +47,8 @@ class App extends Component {
   async newRedirectTransaction() {
     console.log(JSON.parse(document.getElementById('RedirectBody').value));
     const redirectmessage = {
-      data: { tx: JSON.parse(document.getElementById('RedirectBody').value) }
+      data: { tx: JSON.parse(document.getElementById('RedirectBody').value),
+              key: JSON.parse(document.getElementById('ClientJwk').value) }
     };
     await axios.post('http://localhost:3001/redirect', redirectmessage);
   }
@@ -50,7 +57,8 @@ class App extends Component {
     console.log(JSON.parse(document.getElementById('DeviceBody').value));
 
     const devicemessage = {
-      data: { tx: JSON.parse(document.getElementById('DeviceBody').value) }
+      data: { tx: JSON.parse(document.getElementById('DeviceBody').value),
+              key: JSON.parse(document.getElementById('ClientJwk').value)}
     };
     await axios.post('http://localhost:3001/device', devicemessage);
   }
@@ -88,6 +96,16 @@ class App extends Component {
             className="inline-txtarea"
             cols="100"
             id="DeviceBody"
+            rows="30"
+          />
+        </div>
+        <br /> <br /> <br />
+        <div className="inline-div">
+          <p align="center">Client JWK</p>
+          <textarea
+            className="inline-txtarea"
+            cols="100"
+            id="ClientJwk"
             rows="30"
           />
         </div>

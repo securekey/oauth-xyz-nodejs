@@ -6,19 +6,7 @@ import * as mongoose from 'mongoose';
 
 export const KeySchema = new mongoose.Schema({
   handle: String,
-  jwks: {
-    type: String,
-    get: function(data) {
-      try {
-        return JSON.parse(data);
-      } catch (err) {
-        return data;
-      }
-    },
-    set: function(data) {
-      return JSON.stringify(data);
-    }
-  },
+  jwks: Object,
   cert: String,
   did: String,
   proof: String
@@ -35,6 +23,9 @@ export class KeyRequest {
 
   constructor(Obj: any) {
     this.jwks = Obj.jwks;
+    this.cert = Obj.cert;
+    this.did = Obj.did;
+    this.proof = Obj.proof;
   }
 
   public toSchema() {
