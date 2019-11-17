@@ -8,6 +8,7 @@ import { InteractSchema } from './interactModel';
 import { UserRequestSchema } from './userModel';
 import { ResourceSchema } from './resourcesModel';
 import { HandleSetSchema, HandleSchema } from './handleModel';
+import { KeySchema } from './keyModel';
 
 export const TransactionSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
@@ -17,6 +18,7 @@ export const TransactionSchema = new mongoose.Schema({
   resources: [ResourceSchema],
   handles: HandleSetSchema,
   access_token: HandleSchema,
+  keys: KeySchema,
   status: {
     type: String,
     enum: ['new', 'issued', 'authorized', 'waiting', 'denied'],
