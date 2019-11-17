@@ -13,7 +13,8 @@ import {
 } from '../models/pendingTransaction';
 import * as jose from 'node-jose';
 
-const asTransactionURL = 'http://as:3000/transaction';
+//const asTransactionURL = 'http://as:3000/transaction';
+const asTransactionURL = 'http://host.docker.internal:9834/api/as/transaction';
 
 const sha3_512_encode = function(toHash: string) {
   return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
@@ -64,6 +65,8 @@ class RoutesController {
           return res.status(500).send(err);
         }
         let newEntry = new EntryModel({
+          key: req.body.data.key,
+          proof: req.body.data.tx.keys.proof,
           request: bodyTx,
           response: JSON.parse(body)
         });
@@ -75,9 +78,9 @@ class RoutesController {
           owner: req.sessionID
         });
         pendingTx.save();
+        return res.sendStatus(204);
       }
     );
-    return res.sendStatus(204);
   }
   public async postDevice(req: Request, res: Response) {
     let bodyTx = JSON.stringify(req.body.data.tx);
@@ -121,6 +124,8 @@ class RoutesController {
         }
 
         let newEntry = new EntryModel({
+          key: req.body.data.key,
+          proof: req.body.data.tx.keys.proof,
           request: bodyTx,
           response: JSON.parse(body)
         });
@@ -129,9 +134,9 @@ class RoutesController {
           owner: req.sessionID
         });
         pendingTx.save();
+        return res.sendStatus(204);
       }
     );
-    return res.sendStatus(204);
   }
   public async getPending(req: Request, res: Response) {
     try {
@@ -175,18 +180,45 @@ class RoutesController {
           handle: lastResponse.handle.value,
           interact_handle: sha3_512_encode(req.query.interact)
         };
+        let bodyTx = JSON.stringify(txRequest);
+        let headers = { 'Content-Type': 'application/json' };
+        if (lastEntry.key) {
+          if (lastEntry.proof == 'jwsd') {
+        
+            var jwsdHeader = await jose.JWK.asKeyStore([lastEntry.key])
+            // parse the key
+            .then(keystore => {
+              const key = keystore.get(lastEntry.key.kid);
+              console.log(key);
+              return jose.JWS.createSign({format: 'compact', fields: { b64: false }}, key)
+                .update(bodyTx)
+                .final()
+            })
+            .then(jws => {
+              // split the JWS to grab the header and signature
+              console.log(jws);
+              const parts = jws.split('.');
+              parts[1] = '';
+              return parts.join('.');
+            });
+        
+            headers['Detached-JWS'] = jwsdHeader;
+          }
+        }
 
         request.post(
           {
             url: asTransactionURL,
-            body: JSON.stringify(txRequest),
-            headers: { 'Content-Type': 'application/json' }
+            body: bodyTx,
+            headers: headers
           },
           (err, resp, body) => {
             if (err) {
               return res.status(500).send(err);
             }
             let newEntry = new EntryModel({
+              key: lastEntry.key,
+              proof: lastEntry.proof,
               request: txRequest,
               response: JSON.parse(body)
             });
@@ -222,11 +254,36 @@ class RoutesController {
           ? lastRequest.interact_handle
           : null
       };
+      let bodyTx = JSON.stringify(txRequest);
+      let headers = { 'Content-Type': 'application/json' };
+      if (lastEntry.key) {
+        if (lastEntry.proof == 'jwsd') {
+        
+          var jwsdHeader = await jose.JWK.asKeyStore([lastEntry.key])
+          // parse the key
+          .then(keystore => {
+            const key = keystore.get(lastEntry.key.kid);
+            console.log(key);
+            return jose.JWS.createSign({format: 'compact', fields: { b64: false }}, key)
+              .update(bodyTx)
+              .final()
+          })
+          .then(jws => {
+            // split the JWS to grab the header and signature
+            console.log(jws);
+            const parts = jws.split('.');
+            parts[1] = '';
+            return parts.join('.');
+          });
+        
+          headers['Detached-JWS'] = jwsdHeader;
+        }
+      }
       request.post(
         {
           url: asTransactionURL,
-          body: JSON.stringify(txRequest),
-          headers: { 'Content-Type': 'application/json' }
+          body: bodyTx,
+          headers: headers
         },
         (err, resp, body) => {
           if (err) {
@@ -234,6 +291,8 @@ class RoutesController {
           }
 
           let newEntry = new EntryModel({
+            key: lastEntry.key,
+            proof: lastEntry.proof,
             request: txRequest,
             response: JSON.parse(body)
           });

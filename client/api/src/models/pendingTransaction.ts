@@ -7,7 +7,9 @@ import * as mongoose from 'mongoose';
 const EntrySchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   request: mongoose.Schema.Types.Mixed,
-  response: mongoose.Schema.Types.Mixed
+  response: mongoose.Schema.Types.Mixed,
+  key: Object,
+  proof: String
 });
 
 export const EntryModel = new mongoose.model('Entry', EntrySchema);

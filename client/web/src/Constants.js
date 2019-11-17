@@ -31,17 +31,12 @@ export const txObjectRedirect = {
   ],
   keys: {
     proof: 'jwsd',
-    jwks: {
-      keys: [
-        {
+    jwk: {
               "kty": "RSA",
-              "q": "1-mbbtjMbN2S2EamY44Ten3LIjNvfzVx3wOP9rhsTQFRpwrKmOkUfX8vgz6xqgg7tTy4S55FQVlwzNcQlpzNnUwgIS_4OItjDxYc_P9juSPFWWoQqbWbuEfgvE-XjSvkgMHYLNTJwI9fhW2rM4jin_W6sUVaVBWJ8NaLowSerHk",
               "e": "AQAB",
               "kid": "xyz-1",
               "alg": "RS256",
               "n": "ucstjxSr32Bh-s8qcrl9eYmQYH2uCNdrdLEQxlSgW7RcWAex9UoJA1fpyc4QODxoI6IUyuP6to2t9KXFqi_RePgiDxrWWjQtEuEE7UT1ziYMuKPqvh_YZgbuc4pWEWDqY72yOQgQ8utQRs-VkYg3UOVT9H0aYQ67Z0viu3prUDgct0zD9l7LilQOjJ60VPqLko5IU-rNyRBWf75wY5sZktIqemNsHLzknvWRukukaKl-fjGQSywKOmQiBwHn3V97xL8UhGLAzX_Zyy5dcPUR8ojm11W4hHB8fOi_iq0YkzzVviII0lxQ-RbiHpO1Jv7iv-0mKxfAtXk5lyxBOWFAXQ"
-        }
-      ]
     }
   }
 };
@@ -71,17 +66,12 @@ export const txObjectDevice = {
   ],
   keys: {
     proof: 'jwsd',
-    jwks: {
-      keys: [
-        {
+    jwk: {
               "kty": "RSA",
-              "q": "1-mbbtjMbN2S2EamY44Ten3LIjNvfzVx3wOP9rhsTQFRpwrKmOkUfX8vgz6xqgg7tTy4S55FQVlwzNcQlpzNnUwgIS_4OItjDxYc_P9juSPFWWoQqbWbuEfgvE-XjSvkgMHYLNTJwI9fhW2rM4jin_W6sUVaVBWJ8NaLowSerHk",
               "e": "AQAB",
               "kid": "xyz-1",
               "alg": "RS256",
               "n": "ucstjxSr32Bh-s8qcrl9eYmQYH2uCNdrdLEQxlSgW7RcWAex9UoJA1fpyc4QODxoI6IUyuP6to2t9KXFqi_RePgiDxrWWjQtEuEE7UT1ziYMuKPqvh_YZgbuc4pWEWDqY72yOQgQ8utQRs-VkYg3UOVT9H0aYQ67Z0viu3prUDgct0zD9l7LilQOjJ60VPqLko5IU-rNyRBWf75wY5sZktIqemNsHLzknvWRukukaKl-fjGQSywKOmQiBwHn3V97xL8UhGLAzX_Zyy5dcPUR8ojm11W4hHB8fOi_iq0YkzzVviII0lxQ-RbiHpO1Jv7iv-0mKxfAtXk5lyxBOWFAXQ"
-        }
-      ]
     }
   }
 };

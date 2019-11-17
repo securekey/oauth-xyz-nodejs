@@ -154,7 +154,7 @@ class TransactionController {
         let h = new Handle();
         let k = new KeyModel({
           handle: h.value,
-          jwks: tx.keys.jwks,
+          jwk: tx.keys.jwk,
           cert: tx.keys.cert,
           did: tx.keys.did,
           proof: tx.keys.proof
@@ -195,8 +195,8 @@ class TransactionController {
             return res.status(400).send('Missing detached JWS header');
           }
           console.log(jwsdHeader);
-          console.log(tx.keys.jwks);
-          await jose.JWK.asKeyStore(tx.keys.jwks)
+          console.log(tx.keys.jwk);
+          await jose.JWK.asKeyStore([tx.keys.jwk])
           .then(keystore => {
             console.log(keystore.all());
             const parts = jwsdHeader.split('.');
