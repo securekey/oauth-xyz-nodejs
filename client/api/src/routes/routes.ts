@@ -8,7 +8,7 @@ import routesController from '../controllers/routesController';
 export class Routes {
   public routes(app): void {
     app.route('/').get((req: Request, res: Response) => {
-      app.status(418).send({
+      res.status(418).send({
         message: "I'm a teapot."
       });
     });
