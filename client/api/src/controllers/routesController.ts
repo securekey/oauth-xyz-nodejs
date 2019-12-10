@@ -13,8 +13,8 @@ import {
 } from '../models/pendingTransaction';
 import * as jose from 'node-jose';
 
-//const asTransactionURL = 'http://as:3000/transaction';
-const asTransactionURL = 'http://host.docker.internal:9834/api/as/transaction';
+const asTransactionURL = 'http://localhost:3000/transaction';
+// const asTransactionURL = 'http://host.docker.internal:9834/api/as/transaction';
 
 const sha3_512_encode = function(toHash: string) {
   return base64url.fromBase64(Buffer.from(sha3_512(toHash), 'hex').toString('base64'));    
